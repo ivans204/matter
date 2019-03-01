@@ -79,45 +79,21 @@
 <div class="middle">
     <div class="add-menu">
         <div class="row">
-            <div class="col">
-                <div class="inner-col"><a href="#" class="add-ball">Dodaj loptu</a></div>
-            </div>
-            <div class="col">
-                <div class="inner-col"><a href="#" class="kg10">10kg</a></div>
-            </div>
-            <div class="col">
-                <div class="inner-col"><a href="#" class="kg100">100kg</a></div>
-            </div>
-            <div class="col">
-                <div class="inner-col"></div>
-            </div>
-            <div class="col">
-                <div class="inner-col"></div>
-            </div>
-            <div class="col">
-                <div class="inner-col"></div>
-            </div>
+            <div class="col"><div class="inner-col"><a href="#" class="add-ball">Dodaj loptu</a></div></div>
+            <div class="col"><div class="inner-col"><a href="#" class="kg10">10kg</a></div></div>
+            <div class="col"><div class="inner-col"><a href="#" class="kg100">100kg</a></div></div>
+            <div class="col"><div class="inner-col"></div></div>
+            <div class="col"><div class="inner-col"></div></div>
+            <div class="col"><div class="inner-col"></div></div>
         </div>
 
         <div class="row">
-            <div class="col">
-                <div class="inner-col"></div>
-            </div>
-            <div class="col">
-                <div class="inner-col"></div>
-            </div>
-            <div class="col">
-                <div class="inner-col"></div>
-            </div>
-            <div class="col">
-                <div class="inner-col"></div>
-            </div>
-            <div class="col">
-                <div class="inner-col"></div>
-            </div>
-            <div class="col">
-                <div class="inner-col"></div>
-            </div>
+            <div class="col"><div class="inner-col"></div></div>
+            <div class="col"><div class="inner-col"></div></div>
+            <div class="col"><div class="inner-col"></div></div>
+            <div class="col"><div class="inner-col"></div></div>
+            <div class="col"><div class="inner-col"></div></div>
+            <div class="col"><div class="inner-col"></div></div>
         </div>
     </div>
 </div>
@@ -186,6 +162,9 @@
         let ancor = Bodies.rectangle(400, 50, 100, 50, {isStatic: true, render: {fillStyle: '#f2f2f2'}});
         World.add(world, [ancor]);
 
+        let lee = makeCircle(400, 400, 50);
+        draw(lee);
+
         col[0].addEventListener('click', () => {
             let ele = makeCircle(400, 250, 25, {restitution: 0.9, render: {fillStyle: '#b6f27d'}});
             Body.scale(ele, 1, 1);
@@ -221,6 +200,10 @@
         Render.lookAt(render, {
             min: {x: 0, y: 0},
             max: {x: 800, y: 600},
+        });
+
+        Events.on(engine, 'collisionStart', () => {
+            console.log(lee.position.y + 25)
         });
 
         return {
