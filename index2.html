@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Test</title>
+    <style>
+        html, body {
+            padding: 0;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+<div class="middle"></div>
+<script src="node_modules/matter-js/build/matter.js"></script>
+<script>
+
+    let Engine = Matter.Engine,
+        Render = Matter.Render,
+        Runner = Matter.Runner,
+        Composites = Matter.Composites,
+        Common = Matter.Common,
+        World = Matter.World,
+        Bodies = Matter.Bodies,
+        MouseConstraint = Matter.MouseConstraint,
+        Mouse = Matter.Mouse,
+        Constraint = Matter.Constraint;
+
+    let engine = Engine.create();
+    let world = engine.world;
+
+    let render = Render.create({
+        element: document.querySelector('.middle'),
+        engine: engine,
+        options: {
+            width: 800,
+            height: 600,
+            wireframeBackground: '#333',
+            wireframes: false,
+            showVelocity: true,
+            showAngleIndicator: true,
+            showCollisions: false,
+        }
+    });
+
+    Render.run(render);
+    let runner = Runner.create();
+    Runner.run(runner, engine);
+
+    let boxA = Bodies.rectangle(400, 150, 50, 50, {angle: 1.58});
+    let boxB = Bodies.rectangle(250, 150, 50, 50, {restitution: 0.9, angle: -Math.PI * 0.25});
+    let circle = Bodies.circle(350, 150, 25, {restitution: 0.9, angle: 4.7});
+    let body = Bodies.polygon(150, 200, 5, 30);
+
+    //== Walls
+    let wall1 = Bodies.rectangle(400, 0, 800, 50, {isStatic: true, render: {fillStyle: '#f2f2f2'}});
+    let wall2 = Bodies.rectangle(400, 600, 800, 50, {isStatic: true});
+    let wall3 = Bodies.rectangle(800, 300, 50, 600, {isStatic: true});
+    let wall4 = Bodies.rectangle(0, 300, 50, 600, {isStatic: true});
+
+    let constraint = Constraint.create({
+        pointA: {x: 200, y: 200},
+        bodyB: body,
+        stiffness: 0.005
+        // pointB: {x: -10, y: -10}, // offset od sredine
+    });
+
+    function makeCircle (x, y, r, options) {
+        return Bodies.circle(x, y, r, options)
+    }
+    
+    let elements = [boxA, boxB, wall1, wall2, wall3, wall4, circle, body, constraint];
+
+    World.add(world, elements);
+
+    let body2 = Bodies.rectangle(600, 200, 200, 20);
+    let ball = Bodies.circle(600, 150, 20, {restitution: 0.9, angle: Math.PI / 2});
+
+    // console.log(ball.restitution);
+
+    let constraint2 = Constraint.create({
+        pointA: {x: 600, y: 200},
+        bodyB: body2,
+        length: 0,
+    });
+
+    World.add(world, [body2, ball, constraint2]);
+
+    let body3 = Bodies.circle(500, 400, 20, {collisionFilter: {group: -1}});
+    let ball3 = Bodies.circle(600, 400, 50, {collisionFilter: {group: -1}});
+    let multiBody = Constraint.create({
+        bodyA: body3,
+        bodyB: ball3,
+    });
+
+    World.add(world, [body3, ball3, multiBody]);
+
+    let mouse = Mouse.create(render.canvas);
+    let mouseConstraint = MouseConstraint.create(engine, {
+        mouse: mouse,
+        constraint: {
+            length: 0,
+            angularStiffness: 0,
+            render: {
+                visible: false,
+            }
+        }
+    });
+
+    World.add(world, mouseConstraint);
+
+    world.gravity.y = 0.9;
+
+    render.mouse = render;
+
+    Engine.run(engine);
+    Render.run(render);
+
+    // Events.on(mouseConstraint, 'enddrag', (e) => {
+    //     if (e.body.position.x >= 100 && e.body.position.x <= 250) {
+    //         let test2 = Constraint.create({
+    //             pointA: {x: 300, y: 100},
+    //             bodyB: e.body,
+    //             stiffness: 0.01,
+    //             mass: 1000,
+    //         });
+    //         World.add(world, test2)
+    //     }
+    // });
+</script>
+</body>
+</html>
