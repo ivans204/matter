@@ -32,7 +32,9 @@
         Bodies = Matter.Bodies,
         MouseConstraint = Matter.MouseConstraint,
         Mouse = Matter.Mouse,
-        Constraint = Matter.Constraint;
+        Constraint = Matter.Constraint,
+        Detector = Matter.Detector,
+        SAT = Matter.SAT;
 
     let engine = Engine.create();
     let world = engine.world;
@@ -56,7 +58,7 @@
     Runner.run(runner, engine);
 
     let boxA = Bodies.rectangle(400, 150, 50, 50, {angle: 1.58});
-    let boxB = Bodies.rectangle(250, 150, 50, 50, {restitution: 0.9, angle: -Math.PI * 0.25});
+    // let boxB = Bodies.rectangle(250, 150, 50, 50, {restitution: 0.9, angle: -Math.PI * 0.25});
     let circle = Bodies.circle(350, 150, 25, {restitution: 0.9, angle: 4.7});
     let body = Bodies.polygon(150, 200, 5, 30);
 
@@ -73,24 +75,19 @@
         // pointB: {x: -10, y: -10}, // offset od sredine
     });
 
-    function makeCircle (x, y, r, options) {
-        return Bodies.circle(x, y, r, options)
-    }
-    
-    let elements = [boxA, boxB, wall1, wall2, wall3, wall4, circle, body, constraint];
-
-    World.add(world, elements);
+    World.add(world, [boxA, wall1, wall2, wall3, wall4, circle, body, constraint]);
 
     let body2 = Bodies.rectangle(600, 200, 200, 20);
     let ball = Bodies.circle(600, 150, 20, {restitution: 0.9, angle: Math.PI / 2});
-
-    // console.log(ball.restitution);
 
     let constraint2 = Constraint.create({
         pointA: {x: 600, y: 200},
         bodyB: body2,
         length: 0,
     });
+
+    console.log(SAT.collides(body2, ball));
+
 
     World.add(world, [body2, ball, constraint2]);
 
@@ -117,24 +114,11 @@
 
     World.add(world, mouseConstraint);
 
-    world.gravity.y = 0.9;
-
     render.mouse = render;
 
     Engine.run(engine);
     Render.run(render);
 
-    // Events.on(mouseConstraint, 'enddrag', (e) => {
-    //     if (e.body.position.x >= 100 && e.body.position.x <= 250) {
-    //         let test2 = Constraint.create({
-    //             pointA: {x: 300, y: 100},
-    //             bodyB: e.body,
-    //             stiffness: 0.01,
-    //             mass: 1000,
-    //         });
-    //         World.add(world, test2)
-    //     }
-    // });
 </script>
 </body>
 </html>
