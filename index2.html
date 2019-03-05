@@ -34,7 +34,8 @@
         Mouse = Matter.Mouse,
         Constraint = Matter.Constraint,
         Detector = Matter.Detector,
-        SAT = Matter.SAT;
+        SAT = Matter.SAT,
+        Body = Matter.Body;
 
     let engine = Engine.create();
     let world = engine.world;
@@ -58,7 +59,7 @@
     Runner.run(runner, engine);
 
     let boxA = Bodies.rectangle(400, 150, 50, 50, {angle: 1.58});
-    // let boxB = Bodies.rectangle(250, 150, 50, 50, {restitution: 0.9, angle: -Math.PI * 0.25});
+    let boxB = Bodies.rectangle(250, 150, 50, 50, {restitution: 0.9, angle: -Math.PI * 0.25});
     let circle = Bodies.circle(350, 150, 25, {restitution: 0.9, angle: 4.7});
     let body = Bodies.polygon(150, 200, 5, 30);
 
@@ -85,9 +86,6 @@
         bodyB: body2,
         length: 0,
     });
-
-    console.log(SAT.collides(body2, ball));
-
 
     World.add(world, [body2, ball, constraint2]);
 
