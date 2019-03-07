@@ -2,8 +2,10 @@
   <dictionary name="ivan">
     <words>
       <w>ancor</w>
+      <w>collider</w>
       <w>dodaj</w>
       <w>enddrag</w>
+      <w>freefall</w>
       <w>funkcije</w>
       <w>gospa</w>
       <w>kocka</w>
@@ -12,9 +14,11 @@
       <w>loptu</w>
       <w>sredine</w>
       <w>startdrag</w>
+      <w>svemir</w>
       <w>visi</w>
       <w>wireframe</w>
       <w>wireframes</w>
+      <w>zemlja</w>
       <w>zidovi</w>
     </words>
   </dictionary>

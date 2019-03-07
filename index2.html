@@ -58,45 +58,45 @@
     let runner = Runner.create();
     Runner.run(runner, engine);
 
-    let boxA = Bodies.rectangle(400, 150, 50, 50, {angle: 1.58});
-    let boxB = Bodies.rectangle(250, 150, 50, 50, {restitution: 0.9, angle: -Math.PI * 0.25});
-    let circle = Bodies.circle(350, 150, 25, {restitution: 0.9, angle: 4.7});
-    let body = Bodies.polygon(150, 200, 5, 30);
-
+    // let boxA = Bodies.rectangle(400, 150, 50, 50, {angle: 1.58});
+    let krug = Bodies.circle(150, 150, 25, {restitution: 0.9});
+    let boxB = Bodies.circle(250, 150, 25, {restitution: 0.9});
+    let circle = Bodies.circle(350, 150, 25, {restitution: 0.9});
+    // let body = Bodies.polygon(150, 200, 5, 30);
+    Body.applyForce(boxB, {x: 250, y: 150}, {x: 0, y: 0.01});
     //== Walls
     let wall1 = Bodies.rectangle(400, 0, 800, 50, {isStatic: true, render: {fillStyle: '#f2f2f2'}});
     let wall2 = Bodies.rectangle(400, 600, 800, 50, {isStatic: true});
     let wall3 = Bodies.rectangle(800, 300, 50, 600, {isStatic: true});
     let wall4 = Bodies.rectangle(0, 300, 50, 600, {isStatic: true});
 
-    let constraint = Constraint.create({
-        pointA: {x: 200, y: 200},
-        bodyB: body,
-        stiffness: 0.005
-        // pointB: {x: -10, y: -10}, // offset od sredine
-    });
+    // let constraint = Constraint.create({
+    //     pointA: {x: 200, y: 200},
+    //     bodyB: body,
+    //     stiffness: 0.005
+    // });
 
-    World.add(world, [boxA, wall1, wall2, wall3, wall4, circle, body, constraint]);
+    World.add(world, [krug, boxB, wall1, wall2, wall3, wall4, circle]);
+    //
+    // let body2 = Bodies.rectangle(600, 200, 200, 20);
+    // let ball = Bodies.circle(600, 150, 20, {restitution: 0.9, angle: Math.PI / 2});
+    //
+    // let constraint2 = Constraint.create({
+    //     pointA: {x: 600, y: 200},
+    //     bodyB: body2,
+    //     length: 0,
+    // });
 
-    let body2 = Bodies.rectangle(600, 200, 200, 20);
-    let ball = Bodies.circle(600, 150, 20, {restitution: 0.9, angle: Math.PI / 2});
+    // World.add(world, [body2, ball, constraint2]);
 
-    let constraint2 = Constraint.create({
-        pointA: {x: 600, y: 200},
-        bodyB: body2,
-        length: 0,
-    });
-
-    World.add(world, [body2, ball, constraint2]);
-
-    let body3 = Bodies.circle(500, 400, 20, {collisionFilter: {group: -1}});
-    let ball3 = Bodies.circle(600, 400, 50, {collisionFilter: {group: -1}});
-    let multiBody = Constraint.create({
-        bodyA: body3,
-        bodyB: ball3,
-    });
-
-    World.add(world, [body3, ball3, multiBody]);
+    // let body3 = Bodies.circle(500, 400, 20, {collisionFilter: {group: -1}});
+    // let ball3 = Bodies.circle(600, 400, 50, {collisionFilter: {group: -1}});
+    // let multiBody = Constraint.create({
+    //     bodyA: body3,
+    //     bodyB: ball3,
+    // });
+    //
+    // World.add(world, [body3, ball3, multiBody]);
 
     let mouse = Mouse.create(render.canvas);
     let mouseConstraint = MouseConstraint.create(engine, {

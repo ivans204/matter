@@ -172,91 +172,128 @@ project.restitution = function () {
     }
 };
 
+//== FREEFALL --------------------------------------------------------------------------------->
+const earth = document.getElementById('earth');
+const jupiter = document.getElementById('jupiter');
+const space = document.getElementById('space');
 
-//== Friction -->
-project.friction = function () {
+project.freeFall = function () {
 
     let render = Render.create({
         element: mid,
-        engine,
+        engine: engine,
         options: {
             width: 800,
             height: 600,
             wireframeBackground: '#333',
-            wireframes: true,
+            wireframes: false,
             showVelocity: true,
-            showAngleIndicator: false,
-            showCollisions: true,
+            showCollisions: false,
         }
     });
 
     Render.run(render);
 
-    //== Runner create
     let runner = Runner.create();
     Runner.run(runner, engine);
-    //== All 4 walls
-    // walls(800, 600);
 
-    let leftWall = wallLeft(800, 600);
-    let rightWall = wallRight(800, 600);
-    draw([leftWall, rightWall]);
+    walls(800, 600);
 
-    //== Static slides
-    let slide1 = makeRect(300, 100, 800, 20, {angle: Math.PI * 0.05, isStatic: true});
-    let slide2 = makeRect(500, 300, 800, 20, {angle: -Math.PI * 0.05, isStatic: true});
-    let slide3 = makeRect(300, 500, 800, 20, {angle: Math.PI * 0.05, isStatic: true});
-    draw([slide1, slide2, slide3]);
-
-    let box = makeRect(400, 50, 50, 50, {friction: 0.00001});
-    draw(box);
-
-    let collision = SAT.collides(box, slide1);
-
-    Events.on(engine, 'afterUpdate', () => {
-        if (box.position.y > 600) {
-            Body.translate(box, {
-                x: -400,
-                y: -600
-            })
+    let collider = Bodies.rectangle(200, 300, 350, 550, {
+        isSensor: true,
+        isStatic: true,
+        render: {
+            strokeStyle: '#C44D58',
+            fillStyle: 'transparent',
+            lineWidth: 1
         }
     });
 
+    draw(collider);
 
-    //== Mouse control
-    let mouse = Mouse.create(render.canvas);
-    let mouseConstraint = MouseConstraint.create(engine, {
-        mouse: mouse,
-        constraint: {
-            stiffness: 0.2,
-            angularStiffness: 0.1,
-            render: {
-                visible: false
-            },
-        },
+    let ball = makeCircle(600, 500, 40, {
+        restitution: 0.5,
+        render: {strokeStyle: '#C7F464', fillStyle: 'transparent', lineWidth: 1}
+    });
+    draw([ball]);
+
+    Events.on(engine, 'collisionStart', (e) => {
+        let pairs = e.pairs;
+
+        for (let i = 0, j = pairs.length; i !== j; i++) {
+            let pair = pairs[i];
+
+            if (pair.bodyA === collider) {
+                pair.bodyB.render.strokeStyle = '#C44D58';
+            } else if (pair.bodyB === collider) {
+                pair.bodyA.render.strokeStyle = '#C44D58';
+            }
+        }
     });
 
-    World.add(world, mouseConstraint);
+    Events.on(engine, 'afterUpdate', () => {
+        let collision = SAT.collides(collider, ball);
 
-    //== Mouse in sync with rendering
+        if (collision.collided) {
+            earth.addEventListener('click', () => {
+                world.gravity.y = 1.5;
+            });
+
+            jupiter.addEventListener('click', () => {
+                world.gravity.y = 5;
+            });
+
+            space.addEventListener('click', () => {
+                world.gravity.y = 0;
+            });
+            console.log(world.gravity.y)
+        }
+    });
+
+    Events.on(engine, 'collisionEnd', function (event) {
+        let pairs = event.pairs;
+
+        for (let i = 0, j = pairs.length; i !== j; ++i) {
+            let pair = pairs[i];
+
+            if (pair.bodyA === collider) {
+                pair.bodyB.render.strokeStyle = '#C7F464';
+            } else if (pair.bodyB === collider) {
+                pair.bodyA.render.strokeStyle = '#C7F464';
+            }
+        }
+    });
+
+    let mouse = Mouse.create(render.canvas);
+    let mouseConstraint = MouseConstraint.create(engine, {
+        mouse,
+        constraint: {
+            stiffness: 0.2,
+            render: {
+                visible: false,
+            }
+        }
+    });
+
+    draw(mouseConstraint);
     render.mouse = mouse;
 
-    //== Fit the render in viewport
     Render.lookAt(render, {
         min: {x: 0, y: 0},
         max: {x: 800, y: 600},
     });
 
     return {
-        engine: engine,
-        runner: runner,
-        render: render,
+        engine,
+        runner,
+        render,
         canvas: render.canvas,
         stop: function () {
             Matter.Render.stop(render);
             Matter.Runner.stop(runner);
         }
-    };
+    }
 };
 
-project.friction();
+// project.restitution();
+project.freeFall();
