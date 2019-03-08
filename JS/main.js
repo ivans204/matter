@@ -36,23 +36,31 @@ function draw(element) {
 }
 
 function wallTop(width, height = 0) {
-    return createRect(width / 2, -20, width, 50, {isStatic: true, render: {fillStyle: '#333', restitution: 0}});
+    return createRect(width / 2, -20, width, 50, {isStatic: true, restitution: 0, render: {fillStyle: '#333'}});
 }
 
 function wallBot(width, height) {
-    return createRect(width / 2, height + 20, width, 50, {isStatic: true, render: {fillStyle: '#333', restitution: 0}});
+    return createRect(width / 2, height + 20, width, 50, {isStatic: true, restitution: 0, render: {fillStyle: '#333'}});
 }
 
 function wallLeft(width, height) {
-    return createRect(-20, height / 2, 50, height, {isStatic: true, render: {fillStyle: '#333', restitution: 0}});
+    return createRect(-20, height / 2, 50, height, {isStatic: true, restitution: 0, render: {fillStyle: '#333'}});
 }
 
 function wallRight(width, height) {
-    return createRect(width + 20, height / 2, 50, height, {isStatic: true, render: {fillStyle: '#333', restitution: 0}});
+    return createRect(width + 20, height / 2, 50, height, {
+        isStatic: true,
+        render: {fillStyle: '#333', restitution: 0}
+    });
 }
 
 function walls(width, height) {
-    return draw([wallTop(width, height), wallBot(width, height), wallLeft(width, height), wallRight(width, height)]);
+    return draw([
+        wallTop(width, height),
+        wallBot(width, height),
+        wallLeft(width, height),
+        wallRight(width, height)
+    ]);
 }
 
 const mid = document.getElementById('middle');
@@ -173,12 +181,6 @@ project.restitution = function () {
 };
 
 //== FREEFALL --------------------------------------------------------------------------------->
-const earth = document.getElementById('earth');
-const jupiter = document.getElementById('jupiter');
-const space = document.getElementById('space');
-
-const clear = document.getElementById('clearWorld');
-
 project.freeFall = function () {
 
     let render = Render.create({
@@ -241,51 +243,47 @@ project.freeFall = function () {
 
     let ball = createCircle(410, 100, 40, {
         restitution: 0.9,
-        render: {strokeStyle: '#C7F464', fillStyle: 'transparent', lineWidth: 1}
+        frictionAir: 0,
+        render: {strokeStyle: '#C7F464', fillStyle: 'transparent', lineWidth: 1},
     });
     draw([ball]);
 
     Events.on(engine, 'afterUpdate', _.throttle(() => {
-            let jupColl = SAT.collides(jupiter, ball).collided;
-            let satColl = SAT.collides(saturn, ball).collided;
-            let earColl = SAT.collides(earth, ball).collided;
-            let mooColl = SAT.collides(moon, ball).collided;
-            let spaColl = SAT.collides(space, ball).collided;
+            let ballPosX = ball.position.x;
 
-            if (jupColl) {
+            if (ballPosX >= 0 && ballPosX <= 160) {
                 world.gravity.y = 2.53;
-                ball.restitution = 0.4;
+                ball.restitution = 0.2;
             }
 
-            if (satColl) {
+            if (ballPosX > 160 && ballPosX <= 320) {
                 world.gravity.y = 1.07;
-                ball.restitution = 0.9;
+                ball.restitution = 0.5;
             }
 
-            if (earColl) {
+            if (ballPosX > 320 && ballPosX <= 480) {
                 world.gravity.y = 1;
-                ball.restitution = 0.9;
+                ball.restitution = 0.6;
             }
 
-            if (mooColl) {
+            if (ballPosX > 480 && ballPosX <= 640) {
                 world.gravity.y = 0.17;
                 ball.restitution = 1;
             }
 
-            if (spaColl) {
+            if (ballPosX > 640 && ballPosX <= 800) {
                 world.gravity.y = 0;
-                ball.restitution = 0;
+                ball.restitution = 1;
             }
         }, 400)
     );
-
 
     let mouse = Mouse.create(render.canvas);
     let mouseConstraint = MouseConstraint.create(engine, {
         mouse,
         constraint: {
-            stiffness: 0.2,
-            // angularStiffness: 0,
+            stiffness: 0.01,
+            angularStiffness: 1,
             render: {
                 visible: false,
             }
@@ -314,3 +312,9 @@ project.freeFall = function () {
 
 // project.restitution();
 project.freeFall();
+
+const clear = document.getElementById('clearWorld');
+
+clear.addEventListener('click', function () {
+    World.clear(engine.world);
+});
