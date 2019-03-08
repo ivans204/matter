@@ -27,6 +27,7 @@
         Render = Matter.Render,
         Runner = Matter.Runner,
         Composites = Matter.Composites,
+        Composite = Matter.Composite,
         Common = Matter.Common,
         World = Matter.World,
         Bodies = Matter.Bodies,
@@ -61,7 +62,7 @@
     // let boxA = Bodies.rectangle(400, 150, 50, 50, {angle: 1.58});
     let krug = Bodies.circle(150, 150, 25, {restitution: 0.9});
     let boxB = Bodies.circle(250, 150, 25, {restitution: 0.9});
-    let circle = Bodies.circle(350, 150, 25, {restitution: 0.9});
+    let circle = Bodies.circle(350, 150, 25, {restitution: 0.9, density: 100});
     // let body = Bodies.polygon(150, 200, 5, 30);
     Body.applyForce(boxB, {x: 250, y: 150}, {x: 0, y: 0.01});
     //== Walls
