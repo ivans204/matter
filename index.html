@@ -46,10 +46,14 @@
 
         <div class="row">
             <div class="col">
-                <div class="inner-col"></div>
+                <div class="inner-col" id="horizontal">
+                    <a href="#">Horizontal</a>
+                </div>
             </div>
             <div class="col">
-                <div class="inner-col"></div>
+                <div class="inner-col" id="vertical">
+                    <a href="#">Vertical</a>
+                </div>
             </div>
             <div class="col">
                 <div class="inner-col"></div>
@@ -64,6 +68,10 @@
                 <div class="inner-col" id="clearWorld"><a href="#">Clear world</a></div>
             </div>
         </div>
+    </div>
+    <div class="right">
+        <input orient="vertical" type="range" id="range" min="0" max="90" step="1">
+        <label for="range" id="range-num">45</label>
     </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.11/lodash.min.js"></script>

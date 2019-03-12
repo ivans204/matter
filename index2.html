@@ -23,20 +23,23 @@
 <script src="node_modules/matter-js/build/matter.js"></script>
 <script>
 
-    let Engine = Matter.Engine,
-        Render = Matter.Render,
-        Runner = Matter.Runner,
-        Composites = Matter.Composites,
-        Composite = Matter.Composite,
-        Common = Matter.Common,
-        World = Matter.World,
-        Bodies = Matter.Bodies,
-        MouseConstraint = Matter.MouseConstraint,
-        Mouse = Matter.Mouse,
-        Constraint = Matter.Constraint,
-        Detector = Matter.Detector,
-        SAT = Matter.SAT,
-        Body = Matter.Body;
+    const Engine = Matter.Engine;
+    const Events = Matter.Events;
+    const Render = Matter.Render;
+    const Runner = Matter.Runner;
+    const Composites = Matter.Composites;
+    const Composite = Matter.Composite;
+    const Common = Matter.Common;
+    const Constraint = Matter.Constraint;
+    const MouseConstraint = Matter.MouseConstraint;
+    const Mouse = Matter.Mouse;
+    const World = Matter.World;
+    const Vertices = Matter.Vertices;
+    const Bodies = Matter.Bodies;
+    const Body = Matter.Body;
+    const SAT = Matter.SAT;
+    const Bounds = Matter.Bounds;
+    const Svg = Matter.Svg;
 
     let engine = Engine.create();
     let world = engine.world;
@@ -78,26 +81,17 @@
     // });
 
     World.add(world, [krug, boxB, wall1, wall2, wall3, wall4, circle]);
-    //
-    // let body2 = Bodies.rectangle(600, 200, 200, 20);
-    // let ball = Bodies.circle(600, 150, 20, {restitution: 0.9, angle: Math.PI / 2});
-    //
-    // let constraint2 = Constraint.create({
-    //     pointA: {x: 600, y: 200},
-    //     bodyB: body2,
-    //     length: 0,
-    // });
 
-    // World.add(world, [body2, ball, constraint2]);
+    let floor = Bodies.rectangle(150, 280, 150, 20,
+        {isStatic: true, angle: -Math.PI * 0.785398}
+    );
 
-    // let body3 = Bodies.circle(500, 400, 20, {collisionFilter: {group: -1}});
-    // let ball3 = Bodies.circle(600, 400, 50, {collisionFilter: {group: -1}});
-    // let multiBody = Constraint.create({
-    //     bodyA: body3,
-    //     bodyB: ball3,
-    // });
-    //
-    // World.add(world, [body3, ball3, multiBody]);
+    World.add(world, [floor]);
+    console.log(floor);
+
+    floor.angle = Math.PI * 0.78539;
+    World.add(world, [floor]);
+
 
     let mouse = Mouse.create(render.canvas);
     let mouseConstraint = MouseConstraint.create(engine, {
