@@ -2,12 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2cee8f67-26a7-4d6b-a2dc-1476e881c62a" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/dictionaries/ivan.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dictionaries/ivan.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/JS/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/JS/main.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/css/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/css/style.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/index2.html" beforeDir="false" afterPath="$PROJECT_DIR$/index2.html" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -25,29 +25,26 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/index.html">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="484">
-                  <caret line="72" column="82" selection-start-line="72" selection-start-column="82" selection-end-line="72" selection-end-column="82" />
-                  <folding>
-                    <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/css/style.css">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="415">
-                  <caret line="70" column="6" selection-start-line="70" selection-start-column="6" selection-end-line="70" selection-end-column="6" />
+                <state relative-caret-position="529">
+                  <caret line="77" column="22" selection-start-line="77" selection-start-column="22" selection-end-line="77" selection-end-column="22" />
                 </state>
               </provider>
             </entry>
           </file>
           <file pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/css/style.css">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="437">
+                  <caret line="82" selection-start-line="82" selection-end-line="82" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/JS/main.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="530">
-                  <caret line="348" column="17" selection-start-line="348" selection-start-column="17" selection-end-line="348" selection-end-column="17" />
+                <state relative-caret-position="537">
+                  <caret line="450" column="22" lean-forward="true" selection-start-line="450" selection-start-column="22" selection-end-line="450" selection-end-column="22" />
                 </state>
               </provider>
             </entry>
@@ -56,20 +53,20 @@
       </split-first>
       <split-second>
         <leaf>
-          <file pinned="false" current-in-tab="true">
+          <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/index2.html">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="401">
-                  <caret line="92" column="30" lean-forward="true" selection-start-line="92" selection-end-line="93" />
+                <state relative-caret-position="362">
+                  <caret line="109" selection-start-line="109" selection-end-line="109" />
                 </state>
               </provider>
             </entry>
           </file>
-          <file pinned="false" current-in-tab="false">
+          <file pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/JS/main.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="889">
-                  <caret line="324" column="28" selection-start-line="324" selection-start-column="28" selection-end-line="324" selection-end-column="28" />
+                <state relative-caret-position="483">
+                  <caret line="394" column="7" lean-forward="true" selection-start-line="394" selection-start-column="7" selection-end-line="394" selection-end-column="7" />
                 </state>
               </provider>
             </entry>
@@ -89,7 +86,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>Bodies</find>
       <find>part</find>
       <find>part.render</find>
       <find>bodies = {</find>
@@ -110,7 +106,6 @@
       <find>console.log</find>
       <find>render</find>
       <find>$ctx</find>
-      <find>context</find>
       <find>$ct</find>
       <find>sta</find>
       <find>10kg</find>
@@ -118,7 +113,9 @@
       <find>style.</find>
       <find>afterUpdate</find>
       <find>restitution</find>
+      <find>context</find>
       <find>World.remove</find>
+      <find>log</find>
     </findStrings>
     <dirStrings>
       <dir>$PROJECT_DIR$</dir>
@@ -136,9 +133,9 @@
         <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/JS/fall.js" />
         <option value="$PROJECT_DIR$/index2.html" />
-        <option value="$PROJECT_DIR$/css/style.css" />
         <option value="$PROJECT_DIR$/index.html" />
         <option value="$PROJECT_DIR$/JS/main.js" />
+        <option value="$PROJECT_DIR$/css/style.css" />
       </list>
     </option>
   </component>
@@ -147,7 +144,9 @@
     <option name="width" value="960" />
     <option name="height" value="1082" />
   </component>
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
@@ -199,6 +198,16 @@
       </list>
     </option>
   </component>
+  <component name="RunManager">
+    <configuration name="main.js" type="NodeJSConfigurationType" temporary="true" nameIsGenerated="true" path-to-js-file="$PROJECT_DIR$/JS/main.js" working-dir="$PROJECT_DIR$">
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Node.js.main.js" />
+      </list>
+    </recent_temporary>
+  </component>
   <component name="SvnConfiguration">
     <configuration />
   </component>
@@ -210,23 +219,23 @@
       <option name="presentableId" value="Default" />
       <updated>1551174184997</updated>
       <workItem from="1551174186367" duration="13030000" />
-      <workItem from="1551250993881" duration="198445000" />
+      <workItem from="1551250993881" duration="218474000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="211475000" />
+    <option name="totallyTimeSpent" value="231504000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="-2" width="1920" height="1082" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49931788" visible="true" weight="0.12753469" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49931788" visible="true" weight="0.12753469" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" sideWeight="0.5006821" side_tool="true" weight="0.12753469" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.32917964" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -234,7 +243,7 @@
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Database Changes" order="8" />
       <window_info anchor="bottom" id="Version Control" order="9" />
-      <window_info anchor="bottom" id="Terminal" order="10" sideWeight="0.4994664" visible="true" weight="0.23883697" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="10" sideWeight="0.4994664" visible="true" weight="0.23156802" />
       <window_info anchor="bottom" id="Event Log" order="11" sideWeight="0.50053364" side_tool="true" weight="0.23883697" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -304,32 +313,29 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/index2.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="401">
-          <caret line="92" column="30" lean-forward="true" selection-start-line="92" selection-end-line="93" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/css/style.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="415">
-          <caret line="70" column="6" selection-start-line="70" selection-start-column="6" selection-end-line="70" selection-end-column="6" />
+        <state relative-caret-position="362">
+          <caret line="109" selection-start-line="109" selection-end-line="109" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="484">
-          <caret line="72" column="82" selection-start-line="72" selection-start-column="82" selection-end-line="72" selection-end-column="82" />
-          <folding>
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-          </folding>
+        <state relative-caret-position="529">
+          <caret line="77" column="22" selection-start-line="77" selection-start-column="22" selection-end-line="77" selection-end-column="22" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/JS/main.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="530">
-          <caret line="348" column="17" selection-start-line="348" selection-start-column="17" selection-end-line="348" selection-end-column="17" />
+        <state relative-caret-position="537">
+          <caret line="450" column="22" lean-forward="true" selection-start-line="450" selection-start-column="22" selection-end-line="450" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/css/style.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="437">
+          <caret line="82" selection-start-line="82" selection-end-line="82" />
         </state>
       </provider>
     </entry>

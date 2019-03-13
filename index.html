@@ -10,68 +10,72 @@
 </head>
 <body>
 <div class="middle" id="middle">
-    <div class="add-menu">
-        <div class="row">
-            <div class="col">
-                <div class="inner-col" draggable="true" id="ball-1" style="user-select: none">
-                    <a href="#" class="add-ball">10kg</a>
-                </div>
-            </div>
-            <div class="col">
-                <div class="inner-col">
-                    <a href="#" class="kg10">100kg</a>
-                </div>
-            </div>
-            <div class="col">
-                <div class="inner-col">
-                    <a href="#" class="kg100">1000kg</a>
-                </div>
-            </div>
-            <div class="col">
-                <div class="inner-col" id="earth">
-                    <a href="#">Zemlja</a>
-                </div>
-            </div>
-            <div class="col">
-                <div class="inner-col" id="jupiter">
-                    <a href="#">Jupiter</a>
-                </div>
-            </div>
-            <div class="col">
-                <div class="inner-col" id="space">
-                    <a href="#">Svemir</a>
-                </div>
-            </div>
-        </div>
+    <!--<div class="add-menu">-->
+        <!--<div class="row">-->
+            <!--<div class="col">-->
+                <!--<div class="inner-col" draggable="true" id="ball-1" style="user-select: none">-->
+                    <!--<a href="#" class="add-ball">10kg</a>-->
+                <!--</div>-->
+            <!--</div>-->
+            <!--<div class="col">-->
+                <!--<div class="inner-col">-->
+                    <!--<a href="#" class="kg10">100kg</a>-->
+                <!--</div>-->
+            <!--</div>-->
+            <!--<div class="col">-->
+                <!--<div class="inner-col">-->
+                    <!--<a href="#" class="kg100">1000kg</a>-->
+                <!--</div>-->
+            <!--</div>-->
+            <!--<div class="col">-->
+                <!--<div class="inner-col" id="earth">-->
+                    <!--<a href="#">Zemlja</a>-->
+                <!--</div>-->
+            <!--</div>-->
+            <!--<div class="col">-->
+                <!--<div class="inner-col" id="jupiter">-->
+                    <!--<a href="#">Jupiter</a>-->
+                <!--</div>-->
+            <!--</div>-->
+            <!--<div class="col">-->
+                <!--<div class="inner-col" id="space">-->
+                    <!--<a href="#">Svemir</a>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
 
-        <div class="row">
-            <div class="col">
-                <div class="inner-col" id="horizontal">
-                    <a href="#">Horizontal</a>
-                </div>
-            </div>
-            <div class="col">
-                <div class="inner-col" id="vertical">
-                    <a href="#">Vertical</a>
-                </div>
-            </div>
-            <div class="col">
-                <div class="inner-col"></div>
-            </div>
-            <div class="col">
-                <div class="inner-col"></div>
-            </div>
-            <div class="col">
-                <div class="inner-col"></div>
-            </div>
-            <div class="col">
-                <div class="inner-col" id="clearWorld"><a href="#">Clear world</a></div>
-            </div>
-        </div>
-    </div>
+        <!--<div class="row">-->
+            <!--<div class="col">-->
+                <!--<div class="inner-col" id="horizontal">-->
+                    <!--<a href="#">ili ne</a>-->
+                <!--</div>-->
+            <!--</div>-->
+            <!--<div class="col">-->
+                <!--<div class="inner-col" id="vertical">-->
+                    <!--<a href="#">Pucaj</a>-->
+                <!--</div>-->
+            <!--</div>-->
+            <!--<div class="col">-->
+                <!--<div class="inner-col"></div>-->
+            <!--</div>-->
+            <!--<div class="col">-->
+                <!--<div class="inner-col"></div>-->
+            <!--</div>-->
+            <!--<div class="col">-->
+                <!--<div class="inner-col"></div>-->
+            <!--</div>-->
+            <!--<div class="col">-->
+                <!--<div class="inner-col" id="clearWorld"><a href="#">Clear world</a></div>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
     <div class="right">
-        <input orient="vertical" type="range" id="range" min="0" max="90" step="1">
-        <label for="range" id="range-num">45</label>
+        <input class="range" id="range" max="90" min="0" step="1" type="range">
+        <p class="range-num" id="range-num"><span id="deg">45</span>&#176</p>
+
+        <button id="btn-shoot">Pucaj</button>
+
+        <p class="time">Vrijeme: <span id="time-value">0</span> s</p>
     </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.11/lodash.min.js"></script>

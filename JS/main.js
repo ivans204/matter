@@ -322,9 +322,9 @@ project.horizontalFall = function () {
         options: {
             width: 800,
             height: 600,
-            wireframes: true,
+            wireframes: false,
             showVelocity: true,
-            background: '#333'
+            background: '#62dbff'
         }
     });
 
@@ -333,25 +333,32 @@ project.horizontalFall = function () {
     let runner = Runner.create();
     Runner.run(runner, engine);
 
-    let botWall = wallBot(800, 600);
+    let botWall = createRect(400, 620, 800, 50, {
+        collisionFilter: {mask: 0x0002},
+        isStatic: true,
+        restitution: 0,
+        friction: 0,
+        frictionAir: 0,
+        render: {fillStyle: '#333'}
+    });
     let rightWall = wallRight(800, 600);
     let leftWall = wallLeft(800, 600);
-    draw([leftWall, botWall, rightWall]);
+    let topWall = wallTop(800, 600);
+    draw([leftWall, rightWall, topWall, botWall]);
 
-    let xOs = createRect(400, 270, 800, 1,
+    let xOs = createRect(400, 300, 800, 1,
         {isStatic: true, collisionFilter: {mask: 0x0002}}
     );
-    draw([xOs]);
-
-    world.gravity.y = 1;
-
-    let ball = createCircle(25, 265, 20,
-        {mass: 20, frictionAir: 0, friction: 0}
+    let yOs = createRect(25, 300, 1, 600,
+        {isStatic: true, collisionFilter: {mask: 0x0002}}
     );
+    draw([xOs, yOs]);
 
-    let polica = createRect(50, 290, 60, 10, {isStatic: true});
-
-    draw([ball, polica]);
+    let ball = createCircle(25, 300, 20,
+        {mass: 23, frictionAir: 0, friction: 0}
+    );
+    let stand = createRect(20, 325, 30, 10, {isStatic: true});
+    draw([ball, stand]);
 
     let mouse = Mouse.create(render.canvas);
     let mouseConstraint = MouseConstraint.create(engine, {
@@ -368,36 +375,59 @@ project.horizontalFall = function () {
     draw(mouseConstraint);
     render.mouse = mouse;
 
-    let hor = document.getElementById('horizontal');
-    let ver = document.getElementById('vertical');
+    let shoot = document.getElementById('btn-shoot');
     let range = document.getElementById('range');
-    let rangeNum = document.getElementById('range-num');
+    let deg = document.getElementById('deg');
+    let timeVal = document.getElementById('time-value');
+    let time = 0;
+    let start = false;
 
     range.addEventListener('input', () => {
-        rangeNum.innerText = range.value;
+        deg.innerText = range.value;
     });
 
-    ver.addEventListener('click', () => {
-        // console.log(parseInt(range.value) * (Math.PI / 180))
+    shoot.addEventListener('click', () => {
+        start = true;
         let radian = parseInt(range.value) * (Math.PI / 180);
         Body.applyForce(ball, {x: ball.position.x, y: ball.position.y},
             {x: Math.cos(radian), y: -Math.sin(radian)}
         );
-        console.log(ball.force);
     });
 
-    Events.on(engine, 'afterUpdate', _.throttle(() => {
-            // console.log(ball.velocity);
 
-            let col = SAT.collides(ball, botWall).collided;
-            if (ball.position.x >= 60 && mouseConstraint.mouse.button === -1 && !col) {
-                let dot = createRect(ball.position.x, ball.position.y, 1, 1,
-                    {isStatic: true, collisionFilter: {mask: 0x0002}, render: {fillStyle: '#fff'}});
+    Events.on(engine, 'afterUpdate', _.throttle(() => {
+            let col = SAT.collides(ball, stand).collided;
+
+            if (ball.position.x >= 25 && mouseConstraint.mouse.button === -1 && !col) {
+                let dot = createRect(ball.position.x, ball.position.y, 2, 2,
+                    {isStatic: true, collisionFilter: {mask: 0x0002}, render: {fillStyle: '#333'}});
                 draw(dot);
+            }
+
+            if (ball.position.y > 700) {
+                Composite.remove(world, ball);
+                ball = createCircle(25, 300, 20,
+                    {mass: 23, frictionAir: 0, friction: 0}
+                );
+                draw(ball)
             }
         }, 1)
     );
 
+    Events.on(engine, 'afterUpdate', _.throttle(() => {
+            if (start) {
+                time += .1;
+                timeVal.innerHTML = Math.round(time * 100) / 100;
+            }
+
+            let col = SAT.collides(ball, stand).collided;
+
+            if (ball.position.y >= 600 || col) {
+                start = false;
+                time = 0;
+            }
+        }, 100)
+    );
 
     Render.lookAt(render, {
         min: {x: 0, y: 0},
