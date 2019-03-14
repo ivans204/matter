@@ -40,6 +40,7 @@
     const SAT = Matter.SAT;
     const Bounds = Matter.Bounds;
     const Svg = Matter.Svg;
+    const Vector = Matter.Vector;
 
     let engine = Engine.create();
     let world = engine.world;
@@ -51,7 +52,7 @@
             width: 800,
             height: 600,
             wireframeBackground: '#333',
-            wireframes: false,
+            wireframes: true,
             showVelocity: true,
             showAngleIndicator: true,
             showCollisions: false,
@@ -62,35 +63,43 @@
     let runner = Runner.create();
     Runner.run(runner, engine);
 
-    // let boxA = Bodies.rectangle(400, 150, 50, 50, {angle: 1.58});
-    let krug = Bodies.circle(150, 150, 25, {restitution: 0.9});
-    let boxB = Bodies.circle(250, 150, 25, {restitution: 0.9});
-    let circle = Bodies.circle(350, 150, 25, {restitution: 0.9, density: 100});
-    // let body = Bodies.polygon(150, 200, 5, 30);
-    Body.applyForce(boxB, {x: 250, y: 150}, {x: 0, y: 0.01});
     //== Walls
-    let wall1 = Bodies.rectangle(400, 0, 800, 50, {isStatic: true, render: {fillStyle: '#f2f2f2'}});
+    let wall1 = Bodies.rectangle(400, 0, 800, 50, {isStatic: true});
     let wall2 = Bodies.rectangle(400, 600, 800, 50, {isStatic: true});
     let wall3 = Bodies.rectangle(800, 300, 50, 600, {isStatic: true});
     let wall4 = Bodies.rectangle(0, 300, 50, 600, {isStatic: true});
 
-    // let constraint = Constraint.create({
-    //     pointA: {x: 200, y: 200},
-    //     bodyB: body,
-    //     stiffness: 0.005
-    // });
+    World.add(world, [wall1, wall2, wall3, wall4]);
 
-    World.add(world, [krug, boxB, wall1, wall2, wall3, wall4, circle]);
 
-    let floor = Bodies.rectangle(150, 280, 150, 20,
-        {isStatic: true, angle: -Math.PI * 0.785398}
-    );
+    let ball = Composites.softBody(100, 100, 2, 2, 40, 40, true, 10);
+    World.add(world, [ball]);
 
-    World.add(world, [floor]);
-    console.log(floor);
+    let aa = Composite.allConstraints(world);
 
-    floor.angle = Math.PI * 0.78539;
-    World.add(world, [floor]);
+    aa.forEach((v, k) => {
+        let constSpeed = Vector.div(
+            Vector.add(v.bodyA.velocity, v.bodyB.velocity), 2
+        );
+
+        let constPos = Vector.div(
+            Vector.add(v.bodyA.position, v.bodyB.position), 2
+        );
+
+        console.log(constPos, 'constPos');
+
+        let tng = Vector.normalise(v.bodyA.position, v.bodyB.position);
+        console.log(tng, 'tng');
+
+        let norm = Vector.perp(tng);
+        
+        console.log(norm, 'norm');
+
+        let vT = Vector.dot(constSpeed, tng);
+        console.log(vT, 'vT')
+
+    });
+
 
 
     let mouse = Mouse.create(render.canvas);

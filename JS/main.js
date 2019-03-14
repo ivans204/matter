@@ -17,12 +17,15 @@ const Body = Matter.Body;
 const SAT = Matter.SAT;
 const Bounds = Matter.Bounds;
 const Svg = Matter.Svg;
+const Vector = Matter.Vector;
 
 //== Engine creation
 let engine = Engine.create();
 let world = engine.world;
 
 let col = document.querySelectorAll('.col');
+
+let canvas = document.getElementById('canvas');
 
 //== Functions
 function createCircle(x, y, radius, options = 0) {
@@ -246,6 +249,7 @@ project.freeFall = function () {
         frictionAir: 0,
         friction: 0,
         mass: 1,
+        inertia: Infinity,
         render: {strokeStyle: '#C7F464', fillStyle: 'transparent', lineWidth: 1},
     });
 
@@ -314,6 +318,11 @@ project.freeFall = function () {
 };
 
 
+let shoot = document.getElementById('btn-shoot');
+let range = document.getElementById('range');
+let deg = document.getElementById('deg');
+let timeVal = document.getElementById('time-value');
+
 //== Horizontal Fall ----------------------------------------------------------->
 project.horizontalFall = function () {
     let render = Render.create({
@@ -324,7 +333,7 @@ project.horizontalFall = function () {
             height: 600,
             wireframes: false,
             showVelocity: true,
-            background: '#62dbff'
+            background: '#fff6f9'
         }
     });
 
@@ -375,15 +384,11 @@ project.horizontalFall = function () {
     draw(mouseConstraint);
     render.mouse = mouse;
 
-    let shoot = document.getElementById('btn-shoot');
-    let range = document.getElementById('range');
-    let deg = document.getElementById('deg');
-    let timeVal = document.getElementById('time-value');
     let time = 0;
     let start = false;
 
     range.addEventListener('input', () => {
-        deg.innerText = range.value;
+        deg.innerHTML = range.value;
     });
 
     shoot.addEventListener('click', () => {
@@ -419,9 +424,7 @@ project.horizontalFall = function () {
                 time += .1;
                 timeVal.innerHTML = Math.round(time * 100) / 100;
             }
-
             let col = SAT.collides(ball, stand).collided;
-
             if (ball.position.y >= 600 || col) {
                 start = false;
                 time = 0;
@@ -446,6 +449,174 @@ project.horizontalFall = function () {
     }
 };
 
+//== Friction on angle -------------------------------------------------------------------------
+project.frictionOnAngle = function () {
+    let render = Render.create({
+        element: mid,
+        engine: engine,
+        options: {
+            width: 800,
+            height: 600,
+            wireframes: true,
+            showVelocity: false,
+            background: '#333'
+        }
+    });
+
+    Render.run(render);
+
+    let runner = Runner.create();
+    Runner.run(runner, engine);
+
+    walls(800, 600);
+
+    let floor = createRect(430, 300, 500, 25,
+        {isStatic: true, friction: 0,}
+    );
+
+    let ancor = createRect(672.5, 272.5, 15, 80,
+        {isStatic: true});
+
+    let dinamo = createRect(600, 270, 80, 40,
+        {friction: 10, frictionAir: 0}
+    );
+
+    let weight = createCircle(500, 270, 20, {
+        friction: 0,
+        frictionAir: 0,
+        inertia: Infinity,
+        mass: 100,
+    });
+
+    draw([floor, dinamo, ancor, weight]);
+
+    let const1 = Constraint.create({
+        bodyA: ancor,
+        bodyB: dinamo,
+        stiffness: 0.001,
+        pointA: {x: -10, y: -5},
+        pointB: {x: 40, y: 0},
+    });
+
+    let const2 = Constraint.create({
+        bodyA: dinamo,
+        bodyB: weight,
+        stiffness: 1,
+        pointA: {x: -40, y: 0},
+    });
+
+    draw([const1, const2]);
+
+    let comp = Body.create({
+        parts: [ancor, floor], isStatic: true,
+    });
+    draw(comp);
+
+    range.addEventListener('input', function () {
+        let radian = parseInt(range.value) * (Math.PI / 180);
+        deg.innerHTML = range.value;
+        Body.setAngle(comp, -radian);
+    });
+
+    mouse = Mouse.create(render.canvas);
+    let mouseConstraint = MouseConstraint.create(engine, {
+        mouse,
+        constraint: {
+            stiffness: 0.2,
+            angularStiffness: 1,
+            render: {
+                visible: false,
+            }
+        }
+    });
+
+    draw(mouseConstraint);
+    render.mouse = mouse;
+
+    Render.lookAt(render, {
+        min: {x: 0, y: 0},
+        max: {x: 800, y: 600},
+    });
+
+    return {
+        engine,
+        runner,
+        render,
+        canvas: render.canvas,
+        stop: function () {
+            Matter.Render.stop(render);
+            Matter.Runner.stop(runner);
+        }
+    }
+};
+
+//== Circular motion -------------------------------------------------------------------------
+project.circularMotion = function () {
+    let render = Render.create({
+        element: mid,
+        engine: engine,
+        options: {
+            width: 800,
+            height: 600,
+            wireframes: true,
+            showVelocity: true,
+            background: '#333'
+        }
+    });
+
+    Render.run(render);
+
+    let runner = Runner.create();
+    Runner.run(runner, engine);
+
+    mouse = Mouse.create(render.canvas);
+    let mouseConstraint = MouseConstraint.create(engine, {
+        mouse,
+        constraint: {
+            stiffness: 0.2,
+            angularStiffness: 1,
+            render: {
+                visible: false,
+            }
+        }
+    });
+
+    draw(mouseConstraint);
+    render.mouse = mouse;
+
+    Render.lookAt(render, {
+        min: {x: 0, y: 0},
+        max: {x: 800, y: 600},
+    });
+
+
+
+
+
+    let ball = createCircle(250, 300, 40, {mass: 100});
+    let motion = Constraint.create({
+        pointA: {x: 400, y: 300},
+        bodyB: ball,
+        stiffness: 1,
+    });
+
+    draw([ball ,motion]);
+
+
+    return {
+        engine,
+        runner,
+        render,
+        canvas: render.canvas,
+        stop: function () {
+            Matter.Render.stop(render);
+            Matter.Runner.stop(runner);
+        }
+    }
+};
+
 // project.restitution();
 // project.freeFall();
-project.horizontalFall();
+// project.horizontalFall();
+// project.frictionOnAngle();
+project.circularMotion()
