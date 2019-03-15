@@ -25,8 +25,6 @@ let world = engine.world;
 
 let col = document.querySelectorAll('.col');
 
-let canvas = document.getElementById('canvas');
-
 //== Functions
 function createCircle(x, y, radius, options = 0) {
     return Bodies.circle(x, y, radius, options)
@@ -558,7 +556,7 @@ project.circularMotion = function () {
         options: {
             width: 800,
             height: 600,
-            wireframes: true,
+            wireframes: false,
             showVelocity: true,
             background: '#333'
         }
@@ -590,17 +588,43 @@ project.circularMotion = function () {
     });
 
 
+    let ball = createCircle(400, 100, 20,
+        {
+            mass: 20,
+            frictionAir: 0,
+            friction: 0,
+            render: {fillStyle: '#f2f2f2'},
+            inertia: Infinity,
+            speed: 0,
+        });
 
-
-
-    let ball = createCircle(250, 300, 40, {mass: 100});
     let motion = Constraint.create({
         pointA: {x: 400, y: 300},
         bodyB: ball,
         stiffness: 1,
     });
 
-    draw([ball ,motion]);
+    let circlePath = createCircle(400, 300, 200, {
+        collisionFilter: {mask: 0x0002},
+        isStatic: true,
+        render: {strokeStyle: 'white', lineWidth: 0.5, fillStyle: 'transparent'}
+    });
+
+    draw([ball, motion, circlePath]);
+
+    shoot.addEventListener('click', function () {
+        if (ball.position.y <= 300) {
+            Body.applyForce(ball, {x: ball.position.x, y: ball.position.y}, {x: 1, y: 0});
+        } else {
+            Body.applyForce(ball, {x: ball.position.x, y: ball.position.y}, {x: -1, y: 0});
+        }
+    });
+
+    Events.on(engine, 'afterUpdate', _.throttle(() => {
+            timeVal.innerHTML = ball.speed;
+            timeVal.innerHTML = Math.round(ball.speed * 100) / 100;
+        }, 1)
+    );
 
 
     return {
@@ -619,4 +643,4 @@ project.circularMotion = function () {
 // project.freeFall();
 // project.horizontalFall();
 // project.frictionOnAngle();
-project.circularMotion()
+project.circularMotion();

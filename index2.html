@@ -71,35 +71,74 @@
 
     World.add(world, [wall1, wall2, wall3, wall4]);
 
-
-    let ball = Composites.softBody(100, 100, 2, 2, 40, 40, true, 10);
-    World.add(world, [ball]);
-
-    let aa = Composite.allConstraints(world);
-
-    aa.forEach((v, k) => {
-        let constSpeed = Vector.div(
-            Vector.add(v.bodyA.velocity, v.bodyB.velocity), 2
-        );
-
-        let constPos = Vector.div(
-            Vector.add(v.bodyA.position, v.bodyB.position), 2
-        );
-
-        console.log(constPos, 'constPos');
-
-        let tng = Vector.normalise(v.bodyA.position, v.bodyB.position);
-        console.log(tng, 'tng');
-
-        let norm = Vector.perp(tng);
-        
-        console.log(norm, 'norm');
-
-        let vT = Vector.dot(constSpeed, tng);
-        console.log(vT, 'vT')
-
+    let bodyA = Bodies.rectangle(100, 200, 50, 50, {isStatic: true});
+    let bodyB = Bodies.rectangle(200, 200, 50, 50);
+    let bodyC = Bodies.rectangle(300, 200, 50, 50);
+    let bodyD = Bodies.rectangle(400, 200, 50, 50);
+    let bodyE = Bodies.rectangle(550, 200, 50, 50);
+    let bodyF = Bodies.rectangle(700, 200, 50, 50);
+    let bodyG = Bodies.circle(400, 100, 25);
+    let partA = Bodies.rectangle(600, 200, 120, 50);
+    let partB = Bodies.rectangle(660, 200, 50, 190);
+    let compound = Body.create({
+        parts: [partA, partB],
+        isStatic: true
     });
 
+    World.add(world, [bodyA, bodyB, bodyC, bodyD, bodyE, bodyF, bodyG, compound]);
+
+    World.add(world, [
+        // walls
+        Bodies.rectangle(400, 0, 800, 50, {isStatic: true}),
+        Bodies.rectangle(400, 600, 800, 50, {isStatic: true}),
+        Bodies.rectangle(800, 300, 50, 600, {isStatic: true}),
+        Bodies.rectangle(0, 300, 50, 600, {isStatic: true})
+    ]);
+
+    let counter = 0,
+        scaleFactor = 1.01;
+
+    Events.on(engine, 'beforeUpdate', function (event) {
+        counter += 1;
+
+        if (counter === 40)
+            Body.setStatic(bodyG, true);
+
+        if (scaleFactor > 1) {
+            Body.scale(bodyF, scaleFactor, scaleFactor);
+            Body.scale(compound, 0.995, 0.995);
+
+            // modify bodyE vertices
+            bodyE.vertices[0].x -= 0.2;
+            bodyE.vertices[0].y -= 0.2;
+            bodyE.vertices[1].x += 0.2;
+            bodyE.vertices[1].y -= 0.2;
+            Body.setVertices(bodyE, bodyE.vertices);
+        }
+
+        // make bodyA move up and down
+        // body is static so must manually update velocity for friction to work
+        let py = 300 + 100 * Math.sin(engine.timing.timestamp * 0.002);
+        Body.setVelocity(bodyA, {x: 0, y: py - bodyA.position.y});
+        Body.setPosition(bodyA, {x: 100, y: py});
+
+        // make compound body move up and down and rotate constantly
+        Body.setVelocity(compound, {x: 0, y: py - compound.position.y});
+        Body.setAngularVelocity(compound, 0.02);
+        Body.setPosition(compound, {x: 600, y: py});
+        Body.rotate(compound, 0.02);
+
+        // every 1.5 sec
+        if (counter >= 60 * 1.5) {
+            Body.setVelocity(bodyB, {x: 0, y: -10});
+            Body.setAngle(bodyC, -Math.PI * 0.26);
+            Body.setAngularVelocity(bodyD, 0.2);
+
+            // reset counter
+            counter = 0;
+            scaleFactor = 1;
+        }
+    });
 
 
     let mouse = Mouse.create(render.canvas);
@@ -114,6 +153,8 @@
         }
     });
 
+    
+    console.log(engine.deltaTime);
     World.add(world, mouseConstraint);
 
     render.mouse = render;
