@@ -2,6 +2,7 @@
   <dictionary name="ivan">
     <words>
       <w>ancor</w>
+      <w>brzina</w>
       <w>collider</w>
       <w>consttest</w>
       <w>dbff</w>
@@ -14,8 +15,12 @@
       <w>funkcije</w>
       <w>gmnm</w>
       <w>gospa</w>
+      <w>gravitacije</w>
+      <w>hitac</w>
+      <w>hitci</w>
       <w>kocka</w>
       <w>krug</w>
+      <w>kutkut</w>
       <w>lopta</w>
       <w>loptu</w>
       <w>nista</w>
@@ -24,10 +29,13 @@
       <w>pokus</w>
       <w>polica</w>
       <w>pucaj</w>
+      <w>slobnodni</w>
+      <w>slobodni</w>
       <w>sredine</w>
       <w>startdrag</w>
       <w>stupanj</w>
       <w>svemir</w>
+      <w>trenje</w>
       <w>verlet</w>
       <w>visi</w>
       <w>vrijeme</w>

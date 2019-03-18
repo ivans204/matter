@@ -609,21 +609,43 @@ project.circularMotion = function () {
         isStatic: true,
         render: {strokeStyle: 'white', lineWidth: 0.5, fillStyle: 'transparent'}
     });
-
     draw([ball, motion, circlePath]);
 
+
+    // world.gravity.y = 0;
     shoot.addEventListener('click', function () {
+
+        let posX = ball.position.x;
+        let posY = ball.position.y;
+
         if (ball.position.y <= 300) {
-            Body.applyForce(ball, {x: ball.position.x, y: ball.position.y}, {x: 1, y: 0});
+            Body.applyForce(ball, {x: posX, y: posY}, {x: 1, y: 0});
         } else {
-            Body.applyForce(ball, {x: ball.position.x, y: ball.position.y}, {x: -1, y: 0});
+            Body.applyForce(ball, {x: posX, y: posY}, {x: -1, y: 0});
         }
+
     });
 
     Events.on(engine, 'afterUpdate', _.throttle(() => {
+
+            // world.gravity.y = 0;
             timeVal.innerHTML = ball.speed;
             timeVal.innerHTML = Math.round(ball.speed * 100) / 100;
-        }, 1)
+
+            // let posX = ball.position.x;
+            // let posY = ball.position.y;
+            //
+            // if (posX >= 400 && posY <= 300) {
+            //     Body.applyForce(ball, {x: posX, y: posY}, {x: 0.2, y: 0});
+            // } else if (posX >= 400 && posY >= 300) {
+            //     Body.applyForce(ball, {x: posX, y: posY}, {x: 0, y: 0.2});
+            // } else if (posX <= 400 && posY >= 300) {
+            //     Body.applyForce(ball, {x: posX, y: posY}, {x: -0.2, y: 0});
+            // } else if (posX <= 400 && posY <= 300) {
+            //     Body.applyForce(ball, {x: posX, y: posY}, {x: 0, y: -0.2});
+            // }
+
+        }, 50)
     );
 
 
@@ -640,7 +662,7 @@ project.circularMotion = function () {
 };
 
 // project.restitution();
-// project.freeFall();
+project.freeFall();
 // project.horizontalFall();
 // project.frictionOnAngle();
-project.circularMotion();
+// project.circularMotion();
