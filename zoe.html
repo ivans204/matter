@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>ZoE</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        .bot {
+            position: absolute;
+            bottom: 200px;
+            left: 200px;
+            display: flex;
+            z-index: 10;
+        }
+
+        .box {
+            position: relative;
+            margin: 0 10px;
+            width: 80px;
+            text-align: center;
+            height: 160px;
+            color: #f2f2f2;
+            padding: 10px 0;
+        }
+
+        .box-in {
+            position: absolute;
+            width: 100%;
+            bottom: 0;
+            padding: 5px 0;
+            min-height: 25px;
+        }
+
+        .kinetic {
+            background-color: #1c73c9;
+            height: 160px;
+        }
+
+        .gravity {
+            background-color: #aa4ca1;
+            height: 0px;
+        }
+
+        .inner {
+            background-color: #ffaa31;
+            height: 0px;
+        }
+
+        .sum {
+            background-color: #f36f39;
+            height: 160px;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="middle" id="middle">
+    <div class="bot">
+        <div class="box">
+            <p class="value white">100</p>
+            <div class="box-in kinetic">100</div>
+        </div>
+        <div class="box">
+            <div class="box-in gravity">0</div>
+        </div>
+        <div class="box">
+            <div class="box-in inner">0</div>
+        </div>
+        <div class="box">
+            <div class="box-in sum">100</div>
+        </div>
+    </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.11/lodash.min.js"></script>
+<script src="JS/matter.js"></script>
+<script>
+    (function () {
+        const Engine = Matter.Engine;
+        const Events = Matter.Events;
+        const Render = Matter.Render;
+        const Runner = Matter.Runner;
+        const Composites = Matter.Composites;
+        const Composite = Matter.Composite;
+        const Common = Matter.Common;
+        const Constraint = Matter.Constraint;
+        const MouseConstraint = Matter.MouseConstraint;
+        const Mouse = Matter.Mouse;
+        const World = Matter.World;
+        const Vertices = Matter.Vertices;
+        const Bodies = Matter.Bodies;
+        const Body = Matter.Body;
+        const SAT = Matter.SAT;
+        const Bounds = Matter.Bounds;
+        const Svg = Matter.Svg;
+        const Vector = Matter.Vector;
+
+        function draw(element) {
+            World.add(world, element)
+        }
+
+        //== Engine creation
+        let engine = Engine.create();
+        let world = engine.world;
+
+        const mid = document.getElementById('middle');
+
+        let render = Render.create({
+            element: mid,
+            engine: engine,
+            options: {
+                width: 800,
+                height: 600,
+                wireframes: false,
+                showVelocity: true,
+                background: '#333'
+            }
+        });
+
+        Render.run(render);
+
+        let runner = Runner.create();
+        Runner.run(runner, engine);
+
+        mouse = Mouse.create(render.canvas);
+        let mouseConstraint = MouseConstraint.create(engine, {
+            mouse,
+            constraint: {
+                stiffness: 0.2,
+                angularStiffness: 1,
+                render: {
+                    visible: false,
+                }
+            }
+        });
+        draw(mouseConstraint);
+        render.mouse = mouse;
+
+        Render.lookAt(render, {
+            min: {x: 0, y: 0},
+            max: {x: 800, y: 600},
+        });
+
+
+        let ball = Bodies.circle(400, 300, 35, {friction: 0, frictionAir: 0, mass: 100});
+
+        let pendulum = Constraint.create({
+            pointA: {x: 400, y: 1},
+            bodyB: ball,
+            stiffness: 1,
+        });
+
+        draw([ball, pendulum]);
+
+        let xOs = Bodies.rectangle(400, 300, 800, 1,
+            {isStatic: true, collisionFilter: {mask: 0x0002}, render: {fillStyle: '#ffffff'}}
+        );
+        let yOs = Bodies.rectangle(400, 300, 1, 600,
+            {isStatic: true, collisionFilter: {mask: 0x0002}, render: {fillStyle: '#ffffff'}}
+        );
+        draw([xOs, yOs]);
+
+    })();
+
+</script>
+</body>
+</html>

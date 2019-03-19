@@ -20,166 +20,169 @@
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.11/lodash.min.js"></script>
-<script src="node_modules/matter-js/build/matter.js"></script>
+<script src="JS/matter.js"></script>
 <script>
 
-    const Engine = Matter.Engine;
-    const Events = Matter.Events;
-    const Render = Matter.Render;
-    const Runner = Matter.Runner;
-    const MouseConstraint = Matter.MouseConstraint;
-    const Mouse = Matter.Mouse;
-    const World = Matter.World;
-    const Bodies = Matter.Bodies;
-    const Body = Matter.Body;
-    const SAT = Matter.SAT;
-    const Composite = Matter.Composite;
+    (function () {
+        const Engine = Matter.Engine;
+        const Events = Matter.Events;
+        const Render = Matter.Render;
+        const Runner = Matter.Runner;
+        const MouseConstraint = Matter.MouseConstraint;
+        const Mouse = Matter.Mouse;
+        const World = Matter.World;
+        const Bodies = Matter.Bodies;
+        const Body = Matter.Body;
+        const SAT = Matter.SAT;
+        const Composite = Matter.Composite;
 
-    function draw(element) {
-        World.add(world, element)
-    }
-
-    function wallTop(width, height = 0) {
-        return Bodies.rectangle(width / 2, -20, width, 50, {
-            isStatic: true, restitution: 0, friction: 0, frictionAir: 0, render: {fillStyle: '#333'}
-        });
-    }
-
-    function wallLeft(width, height) {
-        return Bodies.rectangle(-20, height / 2, 50, height, {
-            isStatic: true, restitution: 0, friction: 0, frictionAir: 0, render: {fillStyle: '#333'}
-        });
-    }
-
-    function wallRight(width, height) {
-        return Bodies.rectangle(width + 20, height / 2, 50, height, {
-            isStatic: true, restitution: 0, friction: 0, frictionAir: 0, render: {fillStyle: '#333'}
-        });
-    }
-
-    let engine = Engine.create();
-    let world = engine.world;
-
-    const mid = document.getElementById('middle');
-
-    let shoot = document.getElementById('btn-shoot');
-    let range = document.getElementById('range');
-    let deg = document.getElementById('deg');
-    let timeVal = document.getElementById('time-value');
-
-    let render = Render.create({
-        element: mid,
-        engine: engine,
-        options: {
-            width: 800,
-            height: 600,
-            wireframes: false,
-            showVelocity: true,
-            background: '#fff6f9'
+        function draw(element) {
+            World.add(world, element)
         }
-    });
 
-    Render.run(render);
+        function wallTop(width, height = 0) {
+            return Bodies.rectangle(width / 2, -20, width, 50, {
+                isStatic: true, restitution: 0, friction: 0, frictionAir: 0, render: {fillStyle: '#333'}
+            });
+        }
 
-    let runner = Runner.create();
-    Runner.run(runner, engine);
+        function wallLeft(width, height) {
+            return Bodies.rectangle(-20, height / 2, 50, height, {
+                isStatic: true, restitution: 0, friction: 0, frictionAir: 0, render: {fillStyle: '#333'}
+            });
+        }
 
-    let botWall = Bodies.rectangle(400, 620, 800, 50, {
-        collisionFilter: {mask: 0x0002},
-        isStatic: true,
-        restitution: 0,
-        friction: 0,
-        frictionAir: 0,
-        render: {fillStyle: '#333'}
-    });
+        function wallRight(width, height) {
+            return Bodies.rectangle(width + 20, height / 2, 50, height, {
+                isStatic: true, restitution: 0, friction: 0, frictionAir: 0, render: {fillStyle: '#333'}
+            });
+        }
 
-    let rightWall = wallRight(800, 600);
-    let leftWall = wallLeft(800, 600);
-    let topWall = wallTop(800, 600);
+        let engine = Engine.create();
+        let world = engine.world;
 
-    draw([leftWall, rightWall, topWall, botWall]);
+        const mid = document.getElementById('middle');
 
-    let xOs = Bodies.rectangle(400, 300, 800, 1,
-        {isStatic: true, collisionFilter: {mask: 0x0002}}
-    );
-    let yOs = Bodies.rectangle(25, 300, 1, 600,
-        {isStatic: true, collisionFilter: {mask: 0x0002}}
-    );
-    draw([xOs, yOs]);
+        let shoot = document.getElementById('btn-shoot');
+        let range = document.getElementById('range');
+        let deg = document.getElementById('deg');
+        let timeVal = document.getElementById('time-value');
 
-    let ball = Bodies.circle(25, 300, 20,
-        {mass: 23, frictionAir: 0, friction: 0}
-    );
-    let stand = Bodies.rectangle(20, 325, 30, 10, {isStatic: true});
-    draw([ball, stand]);
-
-    let mouse = Mouse.create(render.canvas);
-    let mouseConstraint = MouseConstraint.create(engine, {
-        mouse,
-        constraint: {
-            stiffness: 0.2,
-            angularStiffness: 1,
-            render: {
-                visible: false,
+        let render = Render.create({
+            element: mid,
+            engine: engine,
+            options: {
+                width: 800,
+                height: 600,
+                wireframes: false,
+                showVelocity: true,
+                background: '#fff6f9'
             }
-        }
-    });
+        });
 
-    draw(mouseConstraint);
-    render.mouse = mouse;
+        Render.run(render);
 
-    let time = 0;
-    let start = false;
+        let runner = Runner.create();
+        Runner.run(runner, engine);
 
-    range.addEventListener('input', () => {
-        deg.innerHTML = range.value;
-    });
+        let botWall = Bodies.rectangle(400, 620, 800, 50, {
+            collisionFilter: {mask: 0x0002},
+            isStatic: true,
+            restitution: 0,
+            friction: 0,
+            frictionAir: 0,
+            render: {fillStyle: '#333'}
+        });
 
-    shoot.addEventListener('click', () => {
-        start = true;
-        let radian = parseInt(range.value) * (Math.PI / 180);
-        Body.applyForce(ball, {x: ball.position.x, y: ball.position.y},
-            {x: Math.cos(radian), y: -Math.sin(radian)}
+        let rightWall = wallRight(800, 600);
+        let leftWall = wallLeft(800, 600);
+        let topWall = wallTop(800, 600);
+
+        draw([leftWall, rightWall, topWall, botWall]);
+
+        let xOs = Bodies.rectangle(400, 300, 800, 1,
+            {isStatic: true, collisionFilter: {mask: 0x0002}}
         );
-    });
+        let yOs = Bodies.rectangle(25, 300, 1, 600,
+            {isStatic: true, collisionFilter: {mask: 0x0002}}
+        );
+        draw([xOs, yOs]);
 
+        let ball = Bodies.circle(25, 300, 20,
+            {mass: 23, frictionAir: 0, friction: 0}
+        );
+        let stand = Bodies.rectangle(20, 325, 30, 10, {isStatic: true});
+        draw([ball, stand]);
 
-    Events.on(engine, 'afterUpdate', _.throttle(() => {
-            let col = SAT.collides(ball, stand).collided;
-
-            if (ball.position.x >= 25 && mouseConstraint.mouse.button === -1 && !col) {
-                let dot = Bodies.rectangle(ball.position.x, ball.position.y, 2, 2,
-                    {isStatic: true, collisionFilter: {mask: 0x0002}, render: {fillStyle: '#333'}});
-                draw(dot);
+        let mouse = Mouse.create(render.canvas);
+        let mouseConstraint = MouseConstraint.create(engine, {
+            mouse,
+            constraint: {
+                stiffness: 0.2,
+                angularStiffness: 1,
+                render: {
+                    visible: false,
+                }
             }
+        });
 
-            if (ball.position.y > 700) {
-                Composite.remove(world, ball);
-                ball = Bodies.circle(25, 300, 20,
-                    {mass: 23, frictionAir: 0, friction: 0}
-                );
-                draw(ball)
-            }
-        }, 1)
-    );
+        draw(mouseConstraint);
+        render.mouse = mouse;
 
-    Events.on(engine, 'afterUpdate', _.throttle(() => {
-            if (start) {
-                time += 0.1;
-                timeVal.innerHTML = Math.round(time * 100) / 100;
-            }
-            let col = SAT.collides(ball, stand).collided;
-            if (ball.position.y >= 600 || col) {
-                start = false;
-                time = 0;
-            }
-        }, 100)
-    );
+        let time = 0;
+        let start = false;
 
-    Render.lookAt(render, {
-        min: {x: 0, y: 0},
-        max: {x: 800, y: 600},
-    });
+        range.addEventListener('input', () => {
+            deg.innerHTML = range.value;
+        });
+
+        shoot.addEventListener('click', () => {
+            start = true;
+            let radian = parseInt(range.value) * (Math.PI / 180);
+            Body.applyForce(ball, {x: ball.position.x, y: ball.position.y},
+                {x: Math.cos(radian), y: -Math.sin(radian)}
+            );
+        });
+
+
+        Events.on(engine, 'afterUpdate', _.throttle(() => {
+                let col = SAT.collides(ball, stand).collided;
+
+                if (ball.position.x >= 25 && mouseConstraint.mouse.button === -1 && !col) {
+                    let dot = Bodies.rectangle(ball.position.x, ball.position.y, 2, 2,
+                        {isStatic: true, collisionFilter: {mask: 0x0002}, render: {fillStyle: '#333'}});
+                    draw(dot);
+                }
+
+                if (ball.position.y > 700) {
+                    Composite.remove(world, ball);
+                    ball = Bodies.circle(25, 300, 20,
+                        {mass: 23, frictionAir: 0, friction: 0}
+                    );
+                    draw(ball)
+                }
+            }, 1)
+        );
+
+        Events.on(engine, 'afterUpdate', _.throttle(() => {
+                if (start) {
+                    time += 0.1;
+                    timeVal.innerHTML = Math.round(time * 100) / 100;
+                }
+                let col = SAT.collides(ball, stand).collided;
+                if (ball.position.y >= 600 || col) {
+                    start = false;
+                    time = 0;
+                }
+            }, 100)
+        );
+
+        Render.lookAt(render, {
+            min: {x: 0, y: 0},
+            max: {x: 800, y: 600},
+        });
+    })();
+
 </script>
 </body>
 </html>

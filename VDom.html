@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>VDOM</title>
+</head>
+<body>
+
+
+<script>
+    function Element(tagName, props, children = []) {
+        if (!(this instanceof Element)) {
+            return new Element(tagName, props, children);
+        }
+    }
+
+    Element.prototype.render = function () {
+        let el = document.createElement(this.tagName);
+        console.log(this.props, el);
+        for (let prop in this.props) {
+            let propVal = this.props[prop];
+            el.setAttribute(propVal, prop);
+        }
+        return el
+    };
+
+    console.log(Element('div').render());
+
+</script>
+</body>
+</html>
