@@ -17,7 +17,7 @@
         .bot {
             position: absolute;
             bottom: 200px;
-            left: 200px;
+            left: 250px;
             display: flex;
             z-index: 10;
         }
@@ -27,7 +27,7 @@
             margin: 0 10px;
             width: 80px;
             text-align: center;
-            height: 160px;
+            height: 125px;
             color: #f2f2f2;
             padding: 10px 0;
         }
@@ -36,28 +36,36 @@
             position: absolute;
             width: 100%;
             bottom: 0;
-            padding: 5px 0;
-            min-height: 25px;
+            /*padding: 5px 0;*/
+            min-height: 3px;
         }
 
         .kinetic {
             background-color: #1c73c9;
-            height: 160px;
+            height: 0%;
         }
 
         .gravity {
             background-color: #aa4ca1;
-            height: 0px;
+            height: 100%;
         }
 
         .inner {
             background-color: #ffaa31;
-            height: 0px;
+            height: 0%;
         }
 
         .sum {
             background-color: #f36f39;
-            height: 160px;
+            height: 125px;
+        }
+
+        .under {
+            position: absolute;
+            width: 100%;
+            bottom: -50px;
+            color: #000;
+            text-align: center;
         }
 
     </style>
@@ -67,17 +75,18 @@
 <div class="middle" id="middle">
     <div class="bot">
         <div class="box">
-            <p class="value white">100</p>
-            <div class="box-in kinetic">100</div>
+            <div class="box-in kinetic">0</div>
+            <p class="under">Kineticka</p>
         </div>
+
         <div class="box">
-            <div class="box-in gravity">0</div>
+            <div class="box-in gravity">100</div>
+            <p class="under">Grav. pot.</p>
         </div>
-        <div class="box">
-            <div class="box-in inner">0</div>
-        </div>
+
         <div class="box">
             <div class="box-in sum">100</div>
+            <p class="under">Ukupna</p>
         </div>
     </div>
 </div>
@@ -85,6 +94,7 @@
 <script src="JS/matter.js"></script>
 <script>
     (function () {
+
         const Engine = Matter.Engine;
         const Events = Matter.Events;
         const Render = Matter.Render;
@@ -103,6 +113,7 @@
         const Bounds = Matter.Bounds;
         const Svg = Matter.Svg;
         const Vector = Matter.Vector;
+        const Resolver = Matter.Resolver;
 
         function draw(element) {
             World.add(world, element)
@@ -121,8 +132,7 @@
                 width: 800,
                 height: 600,
                 wireframes: false,
-                showVelocity: true,
-                background: '#333'
+                background: '#333',
             }
         });
 
@@ -151,10 +161,12 @@
         });
 
 
-        let ball = Bodies.circle(400, 300, 35, {friction: 0, frictionAir: 0, mass: 100});
+        let ball = Bodies.circle(650, 45, 35, {
+            inertia: Infinity, restitution: 1.2, friction: 0, frictionAir: 0, slop: 1, mass: 10,
+        });
 
         let pendulum = Constraint.create({
-            pointA: {x: 400, y: 1},
+            pointA: {x: 400, y: 50},
             bodyB: ball,
             stiffness: 1,
         });
@@ -168,6 +180,29 @@
             {isStatic: true, collisionFilter: {mask: 0x0002}, render: {fillStyle: '#ffffff'}}
         );
         draw([xOs, yOs]);
+
+        let inWall = Bodies.rectangle(400, 0, 800, 22.5, {isStatic: true});
+        draw([inWall]);
+
+
+        let kinetic = document.querySelector('.kinetic');
+        let grav = document.querySelector('.gravity');
+
+
+        Events.on(engine, 'beforeUpdate', () => {
+            let col = SAT.collides(ball, inWall).collided;
+            let ballY = ball.position.y;
+
+            grav.style.height = (300 - ballY) / 2.55 + '%';
+            kinetic.style.height = (ballY - 45) / 2.55 + '%';
+
+            grav.innerHTML = Math.round((300 - ballY) / 2.55);
+            kinetic.innerHTML = Math.round((ballY - 45) / 2.55);
+
+            if (col) {
+                Body.setVelocity(ball, {x: 0, y: 6.5})
+            }
+        });
 
     })();
 

@@ -6,6 +6,7 @@
       <w>collider</w>
       <w>consttest</w>
       <w>dbff</w>
+      <w>decomp</w>
       <w>dinamo</w>
       <w>dodaj</w>
       <w>ecdc</w>
@@ -16,11 +17,16 @@
       <w>funkcije</w>
       <w>gmnm</w>
       <w>gospa</w>
+      <w>grav</w>
       <w>gravitacije</w>
       <w>hitac</w>
       <w>hitci</w>
+      <w>iconmonstr</w>
+      <w>ispod</w>
+      <w>kineticka</w>
       <w>klasa</w>
       <w>kocka</w>
+      <w>korak</w>
       <w>krug</w>
       <w>kutkut</w>
       <w>lopta</w>
@@ -32,6 +38,7 @@
       <w>planeti</w>
       <w>pokus</w>
       <w>polica</w>
+      <w>preko</w>
       <w>pucaj</w>
       <w>slobnodni</w>
       <w>slobodni</w>
@@ -40,6 +47,8 @@
       <w>stupanj</w>
       <w>svemir</w>
       <w>trenje</w>
+      <w>ukupna</w>
+      <w>unutarnja</w>
       <w>vdom</w>
       <w>verlet</w>
       <w>visi</w>
