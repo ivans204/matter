@@ -8934,6 +8934,9 @@
                     if (options.showVelocity)
                         Render.bodyVelocity(render, bodies, context);
 
+                    if (options.showGravity)
+                        Render.bodyGravity(render, bodies, context);
+
                     if (options.showIds)
                         Render.bodyIds(render, bodies, context);
 
@@ -9551,6 +9554,26 @@
 
                     c.lineWidth = 3;
                     c.strokeStyle = 'cornflowerblue';
+                    c.stroke();
+                };
+
+                Render.bodyGravity = function (render, bodies, context) {
+                    var c = context;
+
+                    c.beginPath();
+
+                    for (var i = 0; i < bodies.length; i++) {
+                        var body = bodies[i];
+
+                        if (!body.render.visible)
+                            continue;
+
+                        c.moveTo(body.position.x, body.position.y);
+                        c.lineTo(body.position.x, body.position.y + 40);
+                    }
+
+                    c.lineWidth = 3;
+                    c.strokeStyle = '#ee6e24';
                     c.stroke();
                 };
 
