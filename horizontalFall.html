@@ -3,7 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+          content="width=device-width,
+                   user-scalable=no,
+                   initial-scale=1.0,
+                   maximum-scale=1.0,
+                   minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Hitac</title>
     <link rel="stylesheet" href="css/style.css">
@@ -15,14 +19,16 @@
         <input class="range" id="range" max="90" min="0" step="1" type="range">
         <p class="range-num" id="range-num"><span id="deg">45</span>&#176</p>
         <button id="btn-shoot">Pucaj</button>
-        <p class="time">Brzina: <span id="time-value">0</span> s</p>
+        <div class="w">
+            <p class="time">Vrijeme:</p>
+            <p id="time-value">0</p>
+        </div>
     </div>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.11/lodash.min.js"></script>
 <script src="JS/matter.js"></script>
 <script>
-
     (function () {
         const Engine = Matter.Engine;
         const Events = Matter.Events;
@@ -76,7 +82,7 @@
                 height: 600,
                 wireframes: false,
                 showVelocity: true,
-                background: '#fff6f9'
+                background: '#f2f2f2',
             }
         });
 
@@ -91,7 +97,7 @@
             restitution: 0,
             friction: 0,
             frictionAir: 0,
-            render: {fillStyle: '#333'}
+            render: {fillStyle: '#333'},
         });
 
         let rightWall = wallRight(800, 600);
@@ -103,15 +109,19 @@
         let xOs = Bodies.rectangle(400, 300, 800, 1,
             {isStatic: true, collisionFilter: {mask: 0x0002}}
         );
+
         let yOs = Bodies.rectangle(25, 300, 1, 600,
             {isStatic: true, collisionFilter: {mask: 0x0002}}
         );
+
         draw([xOs, yOs]);
 
         let ball = Bodies.circle(25, 300, 20,
-            {mass: 23, frictionAir: 0, friction: 0}
+            {mass: 23, frictionAir: 0, friction: 0, inertia: Infinity}
         );
-        let stand = Bodies.rectangle(20, 325, 30, 10, {isStatic: true});
+
+        let stand = Bodies.rectangle(15, 325, 21, 10, {isStatic: true});
+
         draw([ball, stand]);
 
         let mouse = Mouse.create(render.canvas);
@@ -139,7 +149,9 @@
         shoot.addEventListener('click', () => {
             start = true;
             let radian = parseInt(range.value) * (Math.PI / 180);
-            Body.applyForce(ball, {x: ball.position.x, y: ball.position.y},
+            Body.applyForce(
+                ball,
+                {x: ball.position.x, y: ball.position.y},
                 {x: Math.cos(radian), y: -Math.sin(radian)}
             );
         });
@@ -152,8 +164,9 @@
                     let dot = Bodies.rectangle(ball.position.x, ball.position.y, 2, 2,
                         {isStatic: true, collisionFilter: {mask: 0x0002}, render: {fillStyle: '#333'}});
                     draw(dot);
-                }
+                    console.log(dot);
 
+                }
                 if (ball.position.y > 700) {
                     Composite.remove(world, ball);
                     ball = Bodies.circle(25, 300, 20,

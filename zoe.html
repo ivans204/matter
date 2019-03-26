@@ -36,7 +36,6 @@
             position: absolute;
             width: 100%;
             bottom: 0;
-            /*padding: 5px 0;*/
             min-height: 3px;
         }
 
@@ -50,43 +49,44 @@
             height: 100%;
         }
 
-        .inner {
-            background-color: #ffaa31;
-            height: 0%;
-        }
-
         .sum {
             background-color: #f36f39;
             height: 125px;
         }
-
-        .under {
-            position: absolute;
-            width: 100%;
-            bottom: -50px;
-            color: #000;
-            text-align: center;
-        }
-
     </style>
 </head>
 <body>
 
 <div class="middle" id="middle">
+
+    <div class="left">
+        <div class="wrap">
+            <span class="legend" style="background-color: #1c73c9"></span>
+            <span class="legend-title">Kinetička</span>
+        </div>
+
+        <div class="wrap">
+            <span class="legend" style="background-color: #aa4ca1"></span>
+            <span class="legend-title">Gravitacijska</span>
+        </div>
+
+        <div class="wrap">
+            <span class="legend" style="background-color: #f36f39"></span>
+            <span class="legend-title">Ukupna</span>
+        </div>
+    </div>
+
     <div class="bot">
         <div class="box">
             <div class="box-in kinetic">0</div>
-            <p class="under">Kineticka</p>
         </div>
 
         <div class="box">
             <div class="box-in gravity">100</div>
-            <p class="under">Grav. pot.</p>
         </div>
 
         <div class="box">
             <div class="box-in sum">100</div>
-            <p class="under">Ukupna</p>
         </div>
     </div>
 </div>
@@ -168,14 +168,14 @@
 
         draw([ball, pendulum]);
 
-        let inWall = Bodies.rectangle(400, 0, 800, 22.5, {isStatic: true});
-        draw([inWall]);
+        let wall = Bodies.rectangle(400, 0, 800, 22.5, {isStatic: true});
+        draw([wall]);
 
         let kinetic = document.querySelector('.kinetic');
         let grav = document.querySelector('.gravity');
 
         Events.on(engine, 'beforeUpdate', () => {
-            let col = SAT.collides(ball, inWall).collided;
+            let col = SAT.collides(ball, wall).collided;
             let ballY = ball.position.y;
 
             grav.style.height = (300 - ballY) / 2.55 + '%';

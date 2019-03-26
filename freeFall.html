@@ -3,20 +3,58 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+          content="width=device-width,
+                   user-scalable=no,
+                   initial-scale=1.0,
+                   maximum-scale=1.0,
+                   minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Slobnodni pad</title>
+
+    <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
+
+    <script type="text/javascript" async
+            src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+    </script>
 </head>
 <body>
 <div class="middle" id="middle">
-    <div class="right"></div>
+    <div class="top">
+        <div class="info">
+            <p class="info-title">Jupiter</p>
+            <span>$$g &asymp; 23.12\ ms^{-23}$$</span>
+            <span>$$m &asymp; 1.90 * 10^{30} kg$$</span>
+            <span>$$r &asymp; 71492 km$$</span>
+        </div>
+        <div class="info">
+            <span class="info-title">Saturn</span>
+            <span>$$g &asymp; 10.44\ ms^{-2}$$</span>
+            <span>$$m &asymp; 5.68 * 10^{26}\ kg$$</span>
+            <span>$$r &asymp; 60268\ km$$</span>
+        </div>
+        <div class="info">
+            <span class="info-title">Zemlja</span>
+            <span>$$g &asymp; 9.81\ ms^{-2}$$</span>
+            <span>$$m &asymp; 6 * 10^{24}\ kg$$</span>
+            <span>$$r &asymp; 6371\ km$$</span>
+        </div>
+        <div class="info">
+            <span class="info-title">Mjesec</span>
+            <span>$$g &asymp; 1.62\ ms^{-2}$$</span>
+            <span>$$m &asymp; 7.35 * 10^{22}\ kg$$</span>
+            <span>$$r &asymp; 1737.1\ km$$</span>
+        </div>
+        <div class="info">
+            <span class="info-title">Svemir</span>
+            <span>$$g &asymp; 0\ ms^{-2}$$</span>
+        </div>
+    </div>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.11/lodash.min.js"></script>
 <script src="JS/matter.js"></script>
 <script>
-
     (function () {
         const Engine = Matter.Engine;
         const Events = Matter.Events;
@@ -29,39 +67,6 @@
 
         function draw(element) {
             World.add(world, element)
-        }
-
-        function wallTop(width, height = 0) {
-            return Bodies.rectangle(width / 2, -20, width, 50, {
-                isStatic: true, restitution: 0, friction: 0, frictionAir: 0, render: {fillStyle: '#333'}
-            });
-        }
-
-        function wallBot(width, height) {
-            return Bodies.rectangle(width / 2, height + 20, width, 50, {
-                isStatic: true, restitution: 0, friction: 0, frictionAir: 0, render: {fillStyle: '#333'}
-            });
-        }
-
-        function wallLeft(width, height) {
-            return Bodies.rectangle(-20, height / 2, 50, height, {
-                isStatic: true, restitution: 0, friction: 0, frictionAir: 0, render: {fillStyle: '#333'}
-            });
-        }
-
-        function wallRight(width, height) {
-            return Bodies.rectangle(width + 20, height / 2, 50, height, {
-                isStatic: true, restitution: 0, friction: 0, frictionAir: 0, render: {fillStyle: '#333'}
-            });
-        }
-
-        function walls(width, height) {
-            return draw([
-                wallTop(width, height),
-                wallBot(width, height),
-                wallLeft(width, height),
-                wallRight(width, height)
-            ]);
         }
 
         let engine = Engine.create();
@@ -88,7 +93,30 @@
         let runner = Runner.create();
         Runner.run(runner, engine);
 
-        walls(800, 600);
+        let wallOptions = {
+            restitution: 0,
+            friction: 0,
+            frictionAir: 0,
+            isStatic: true,
+            render: {fillStyle: '#000'}
+        };
+
+        let wallPos = [
+            {x: 800 / 2, y: -20, width: 800, height: 50, wallOptions},
+            {x: 800 / 2, y: 600 + 20, width: 800, height: 50, wallOptions},
+            {x: -20, y: 600 / 2, width: 50, height: 600, wallOptions},
+            {x: 800 + 20, y: 600 / 2, width: 50, height: 600, wallOptions}
+        ];
+
+        wallPos.forEach((v, k) => {
+            draw(Bodies.rectangle(
+                wallPos[k].x,
+                wallPos[k].y,
+                wallPos[k].width,
+                wallPos[k].height,
+                wallPos[k].wallOptions)
+            );
+        });
 
         let planetOptions = {
             restitution: 0,
@@ -107,8 +135,13 @@
         ];
 
         planetPos.forEach((v, k) => {
-            draw(Bodies.rectangle(planetPos[k].x,
-                planetPos[k].y, planetPos[k].width, planetPos[k].height, planetPos[k].planetOptions));
+            draw(Bodies.rectangle(
+                planetPos[k].x,
+                planetPos[k].y,
+                planetPos[k].width,
+                planetPos[k].height,
+                planetPos[k].planetOptions)
+            );
         });
 
         let ball = Bodies.circle(410, 100, 40, {
@@ -125,27 +158,27 @@
         Events.on(engine, 'afterUpdate', _.throttle(() => {
                 let ballPosX = ball.position.x;
 
-                if (ballPosX >= 0 && ballPosX <= 160) {
+                if (ballPosX >= 0 && ballPosX <= 160) { //jupiter
                     world.gravity.y = 2.53;
                     ball.restitution = 0.4;
                 }
 
-                if (ballPosX > 160 && ballPosX <= 320) {
+                if (ballPosX > 160 && ballPosX <= 320) { //mercury
                     world.gravity.y = 1.07;
                     ball.restitution = 0.6;
                 }
 
-                if (ballPosX > 320 && ballPosX <= 480) {
+                if (ballPosX > 320 && ballPosX <= 480) { //earth
                     world.gravity.y = 1;
                     ball.restitution = 0.7;
                 }
 
-                if (ballPosX > 480 && ballPosX <= 640) {
+                if (ballPosX > 480 && ballPosX <= 640) { //moon
                     world.gravity.y = 0.17;
                     ball.restitution = 0.99;
                 }
 
-                if (ballPosX > 640 && ballPosX <= 800) {
+                if (ballPosX > 640 && ballPosX <= 800) { //space
                     world.gravity.y = 0;
                     ball.restitution = 1;
                 }

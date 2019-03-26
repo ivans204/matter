@@ -6,5 +6,8 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="lodash" level="application" />
     <orderEntry type="library" name="jquery" level="application" />
+    <orderEntry type="library" name="Accessible-full" level="application" />
+    <orderEntry type="library" name="TeX-AMS_CHTML-full" level="application" />
+    <orderEntry type="library" name="TeX-AMS_HTML-full" level="application" />
   </component>
 </module>

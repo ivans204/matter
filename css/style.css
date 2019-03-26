@@ -1,5 +1,6 @@
 * {
     box-sizing: border-box;
+    font-family: 'Montserrat', sans-serif;
 }
 
 html, body {
@@ -74,33 +75,79 @@ button:active, button:focus {
 }
 
 .white {
-    color: #fff;
+    color: #fff !important;
 }
 
 .black {
-    color: #000;
+    color: #000 !important;
+}
+
+.left {
+    min-width: 150px;
+    position: absolute;
+    left: 5px;
+    top: 5px;
+    font-size: 12px;
+}
+
+.wrap {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    margin-top: 10px;
+}
+
+.legend {
+    width: 50px;
+    height: 10px;
+    background-color: cornflowerblue;
+}
+
+.legend-title {
+    margin-left: 5px;
 }
 
 .right {
-    min-width: 120px;
+    min-width: 150px;
     position: absolute;
     right: 50px;
 }
 
+.wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 #btn-shoot {
     display: block;
-    margin: 10px auto;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10px;
     width: 100px;
     height: 30px;
-    background: #f2f2f2;
+    background: #fff;
     border: 1px solid #706fd8;
     border-radius: 10px;
     cursor: pointer;
 }
 
 .time {
-    text-align: center;
+    text-align: right;
     color: #000;
+    width: 50%;
+    margin-left: 20px;
+}
+
+.w {
+    display: flex;
+    width: 100%;
+}
+
+#time-value {
+    width: 50%;
+    text-align: left;
+    margin-left: 5px;
 }
 
 input[type=range] {
@@ -157,7 +204,7 @@ input[type=range]::-moz-range-thumb {
     height: 26px;
     width: 26px;
     border-radius: 15px;
-    background: #FFFFFF;
+    background: #fff;
     cursor: pointer;
 }
 
@@ -201,4 +248,39 @@ input[type=range]:focus::-ms-fill-lower {
 
 input[type=range]:focus::-ms-fill-upper {
     background: #706fd8;
+}
+
+.top {
+    position: absolute;
+    top: 5px;
+    width: 100%;
+    height: 60px;
+    background-color: transparent;
+    display: flex;
+    flex-direction: row;
+}
+
+.info {
+    width: 20%;
+    height: 72px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    user-input: none;
+    margin: 0;
+}
+
+.info-title {
+    font-weight: bold;
+    margin: 0;
+}
+
+.info span {
+    font-size: 14px;
+}
+
+.info .MJXc-display {
+    margin: 0;
 }

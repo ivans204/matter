@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="JavaScriptLibraryMappings">
-    <file url="PROJECT" libraries="{jquery, lodash}" />
+    <file url="PROJECT" libraries="{Accessible-full, TeX-AMS_CHTML-full, TeX-AMS_HTML-full, jquery, lodash}" />
   </component>
 </project>

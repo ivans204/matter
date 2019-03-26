@@ -7,19 +7,29 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Circular Motion</title>
 
+    <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
 
-    <style>
-
-    </style>
 </head>
 <body>
 
 <div class="middle" id="middle">
+
+    <div class="left">
+        <div class="wrap">
+            <span class="legend"></span><span class="legend-title">Brzina</span>
+        </div>
+    </div>
+
     <div class="right">
         <button id="btn-shoot">Start</button>
-        <p class="time">Brzina: <span id="time-value">0</span> m/s</p>
-        <input id="check" type="checkbox"><span class="white">Bez gravitacije</span>
+        <div class="w">
+            <p class="time">Brzina:</p>
+            <p id="time-value">0</p>
+        </div>
+        <div class="wrapper">
+            <input id="check" type="checkbox"><span>Bez gravitacije</span>
+        </div>
     </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.11/lodash.min.js"></script>
@@ -41,7 +51,6 @@
             World.add(world, element)
         }
 
-        //== Engine creation
         let engine = Engine.create();
         let world = engine.world;
 
@@ -58,7 +67,7 @@
                 height: 600,
                 wireframes: false,
                 showVelocity: true,
-                background: '#333'
+                background: '#f2f2f2',
             }
         });
 
@@ -86,19 +95,19 @@
             max: {x: 800, y: 600},
         });
 
-        let ball = Bodies.circle(400, 100, 20,
-            {
-                mass: 20,
-                frictionAir: 0,
-                friction: 0,
-                render: {fillStyle: '#f2f2f2'},
-                inertia: Infinity,
-            });
+        let ball = Bodies.circle(400, 100, 20, {
+            mass: 20,
+            frictionAir: 0,
+            friction: 0,
+            render: {fillStyle: '#000'},
+            inertia: Infinity,
+        });
 
         let motion = Constraint.create({
             pointA: {x: 400, y: 300},
             bodyB: ball,
             stiffness: 1,
+            render: {strokeStyle: '#000'}
         });
 
         let circlePath = Bodies.circle(400, 300, 200, {
@@ -106,10 +115,9 @@
             isStatic: true,
             friction: 0,
             frictionAir: 0,
-            render: {strokeStyle: 'white', lineWidth: 0.5, fillStyle: 'transparent'}
+            render: {strokeStyle: '#333', lineWidth: 0.5, fillStyle: 'transparent'}
         });
         draw([ball, motion, circlePath]);
-
 
         shoot.addEventListener('click', function () {
             let posX = ball.position.x;
