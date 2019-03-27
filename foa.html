@@ -175,8 +175,6 @@
 
         Events.on(engine, 'afterUpdate', _.throttle(() => {
                 velo.innerHTML = Math.floor(Vector.magnitude(rekt.velocity) * 100);
-                console.log(rekt.velocity);
-
             }, 500)
         );
 
