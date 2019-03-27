@@ -284,3 +284,27 @@ input[type=range]:focus::-ms-fill-upper {
 .info .MJXc-display {
     margin: 0;
 }
+
+.wrap {
+    display: flex;
+    width: 100%;
+}
+
+.l, .r {
+    width: 50%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.l {
+    border-right: 1px solid black;
+}
+
+ul{
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    position: relative;
+    text-align: center;
+}

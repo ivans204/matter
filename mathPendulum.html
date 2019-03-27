@@ -3,7 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+          content="width=device-width,
+                   user-scalable=no,
+                   initial-scale=1.0,
+                   maximum-scale=1.0,
+                   minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Matematicko njihalo</title>
 
@@ -50,7 +54,10 @@
         }
 
         //== Engine creation
-        let engine = Engine.create();
+        let engine = Engine.create({
+            metrics: {extended: true},
+            enableSleeping: false,
+        });
         let world = engine.world;
 
         const mid = document.getElementById('middle');
@@ -93,7 +100,7 @@
             render: {fillStyle: '#333'}
         });
 
-        let letva = Bodies.rectangle(400, 190, 800, 5, {isStatic: true, friction: 0, frictionAir: 0});
+        let stanga = Bodies.rectangle(400, 100, 800, 5, {isStatic: true, friction: 0, frictionAir: 0});
 
         let pendulum = Constraint.create({
             pointA: {x: 400, y: 10},
@@ -103,7 +110,7 @@
             render: {strokeStyle: '#333'}
         });
 
-        draw([ball, pendulum, letva]);
+        draw([ball, pendulum, stanga]);
 
         // world.gravity.y = 0;
 
@@ -119,30 +126,27 @@
                 start = false;
             }
         });
+
         Events.on(engine, 'beforeUpdate', () => {
             let ballX = ball.position.x;
             let ballY = ball.position.y;
             let ballVx = ball.velocity.x;
 
-            // if (ballX < 103) {
-            //     Body.setVelocity(ball, {x: 3.5, y: 3.5})
-            // }
-            //
-            // if (ballX > 705) {
-            //     Body.setVelocity(ball, {x: -3.5, y: 3.5})
-            // }
+            // let impulse = Vector.sub(mouse.position, ball.position);
+            // impulse = Vector.mult(impulse, 3/4);
+            // Body.applyForce(ball, ball.position, impulse)
 
-            if (ballVx < 0 && ballX < 400) {
-                //goes left
+            if (ballX < 100) {
+                Body.setVelocity(ball, {x: 3.5, y: 3.5})
             }
 
-            if (ballVx > 0) {
-                //goes right
-
+            if (ballX > 705) {
+                Body.setVelocity(ball, {x: -3.5, y: 3.5})
             }
-
-            // console.log(ball.velocity);
         });
+        engine.world.gravity.y = 0;
+        engine.world.gravity.x = 0;
+        engine.timing.timeScale = 1;
     })();
 </script>
 </body>

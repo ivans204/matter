@@ -3,17 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+          content="width=device-width,
+                   user-scalable=no,
+                   initial-scale=1.0,
+                   maximum-scale=1.0,
+                   minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Trenje</title>
+    <title>FoA</title>
     <link rel="stylesheet" href="css/style.css">
+
 </head>
 <body>
-
 <div class="middle" id="middle">
     <div class="right">
         <input class="range" id="range" max="90" min="0" step="1" type="range">
-        <p class="range-num white" id="range-num"><span id="deg">45</span>&#176</p>
+        <p class="range-num black" id="range-num"><span id="deg">45</span>&#176</p>
+        <p id="velo"></p>
+
+        <div class="wrapper">
+            <ul class="l">
+                <li><input id="check" name="trenje" checked type="radio">0.1</li>
+                <li><input id="check" name="trenje" type="radio">0.2</li>
+                <li><input id="check" name="trenje" type="radio">0.3</li>
+                <li><input id="check" name="trenje" type="radio">0.4</li>
+                <li><input id="check" name="trenje" type="radio">0.5</li>
+            </ul>
+
+            <ul class="r">
+                <li><input id="check" name="kg" checked type="radio">1 kg</li>
+                <li><input id="check" name="kg" type="radio">2 kg</li>
+                <li><input id="check" name="kg" type="radio">5 kg</li>
+                <li><input id="check" name="kg" type="radio">10 kg</li>
+                <li><input id="check" name="kg" type="radio">50 kg</li>
+            </ul>
+        </div>
+
     </div>
 </div>
 
@@ -21,16 +45,28 @@
 <script src="JS/matter.js"></script>
 <script>
     (function () {
+
         const Engine = Matter.Engine;
         const Events = Matter.Events;
         const Render = Matter.Render;
         const Runner = Matter.Runner;
+        const Composites = Matter.Composites;
+        const Composite = Matter.Composite;
+        const Common = Matter.Common;
         const Constraint = Matter.Constraint;
         const MouseConstraint = Matter.MouseConstraint;
         const Mouse = Matter.Mouse;
         const World = Matter.World;
+        const Vertices = Matter.Vertices;
         const Bodies = Matter.Bodies;
         const Body = Matter.Body;
+        const SAT = Matter.SAT;
+        const Bounds = Matter.Bounds;
+        const Svg = Matter.Svg;
+        const Vector = Matter.Vector;
+
+        const range = document.getElementById('range');
+        const velo = document.getElementById('velo');
 
         function draw(element) {
             World.add(world, element)
@@ -44,11 +80,11 @@
             return parseInt(rad) * (180 / Math.PI);
         }
 
+        //== Engine creation
         let engine = Engine.create();
         let world = engine.world;
 
         const mid = document.getElementById('middle');
-        const range = document.getElementById('range');
 
         let render = Render.create({
             element: mid,
@@ -56,9 +92,8 @@
             options: {
                 width: 800,
                 height: 600,
-                wireframes: true,
-                showVelocity: false,
-                background: '#333'
+                wireframes: false,
+                background: '#f2f2f2',
             }
         });
 
@@ -78,7 +113,6 @@
                 }
             }
         });
-
         draw(mouseConstraint);
         render.mouse = mouse;
 
@@ -89,7 +123,7 @@
 
         let wallOptions = {
             restitution: 0,
-            friction: 0,
+            friction: 0.2,
             frictionAir: 0,
             isStatic: true,
             render: {fillStyle: '#000'},
@@ -113,55 +147,37 @@
             );
         });
 
-        let floor = Bodies.rectangle(430, 300, 500, 25,
-            {isStatic: true, friction: 0,}
-        );
+        // let floor = Bodies.rectangle(400, 300, 300, 20, {isStatic: true});
+        // let left = Bodies.rectangle(260, 260, 20, 100, {isStatic: true});
+        let floor = Bodies.rectangle(400, 300, 780, 20, {isStatic: true});
+        let left = Bodies.rectangle(20, 260, 20, 100, {isStatic: true});
 
-        let ancor = Bodies.rectangle(672.5, 272.5, 15, 80,
-            {isStatic: true});
+        let base = Body.create({
+            parts: [left, floor], isStatic: true,
+        });
+        draw(base);
 
-        let dinamo = Bodies.rectangle(600, 270, 80, 40,
-            {friction: 10, frictionAir: 0}
-        );
-
-        let weight = Bodies.circle(500, 270, 20, {
-            friction: 0,
-            frictionAir: 0,
-            mass: 10,
+        let rekt = Bodies.rectangle(750, 550, 50, 30, {
+            friction: 0.1, frictionAir: 0, mass: 1,
         });
 
-        draw([floor, dinamo, ancor, weight]);
+        draw(rekt);
 
-        let const1 = Constraint.create({
-            bodyA: ancor,
-            bodyB: dinamo,
-            stiffness: 0.001,
-            pointA: {x: -10, y: -5},
-            pointB: {x: 40, y: 0},
-        });
-
-        let const2 = Constraint.create({
-            bodyA: dinamo,
-            bodyB: weight,
-            stiffness: 1,
-            pointA: {x: -40, y: 0},
-        });
-
-        draw([const1, const2]);
-
-        let comp = Body.create({
-            parts: [ancor, floor], isStatic: true,
-        });
-        draw(comp);
-
-        Body.setAngle(comp, -toRad(45));
+        Body.setAngle(base, toRad(45));
 
         range.addEventListener('input', function () {
             let radian = parseInt(range.value) * (Math.PI / 180);
             deg.innerHTML = range.value;
-            Body.setAngle(comp, -radian);
+            Body.setAngle(base, radian);
+
+            world.gravity.x = Math.sin(-radian);
         });
 
+        Events.on(engine, 'afterUpdate', _.throttle(() => {
+                velo.innerHTML = Math.floor(Vector.magnitude(rekt.velocity) * 100);
+                console.log(rekt.velocity);
+            }, 500)
+        );
 
     })();
 </script>
