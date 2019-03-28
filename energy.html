@@ -9,34 +9,13 @@
                    maximum-scale=1.0,
                    minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>FoA</title>
+    <title>Energija</title>
     <link rel="stylesheet" href="css/style.css">
 
 </head>
 <body>
 <div class="middle" id="middle">
-    <div class="right">
-        <input class="range" id="range" max="90" min="0" step="1" type="range">
-        <p class="range-num black" id="range-num"><span id="deg">45</span>&#176</p>
 
-        <div class="wrapper">
-            <ul class="l">
-                <li><input id="fric" data-val="0.01" name="trenje" checked type="radio">0.1</li>
-                <li><input id="fric" data-val="0.02" name="trenje" type="radio">0.2</li>
-                <li><input id="fric" data-val="0.05" name="trenje" type="radio">0.3</li>
-                <li><input id="fric" data-val="0.1" name="trenje" type="radio">0.4</li>
-                <li><input id="fric" data-val="0.00" name="trenje" type="radio">0</li>
-            </ul>
-
-            <!--<ul class="r">-->
-            <!--<li><input id="wh" data-val="1" name="kg" checked type="radio">1</li>-->
-            <!--<li><input id="wh" data-val="5" name="kg" type="radio">5</li>-->
-            <!--<li><input id="wh" data-val="10" name="kg" type="radio">10</li>-->
-            <!--<li><input id="wh" data-val="25" name="kg" type="radio">25</li>-->
-            <!--<li><input id="wh" data-val="50" name="kg" type="radio">50</li>-->
-            <!--</ul>-->
-        </div>
-    </div>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.11/lodash.min.js"></script>
@@ -63,20 +42,8 @@
         const Svg = Matter.Svg;
         const Vector = Matter.Vector;
 
-        const range = document.getElementById('range');
-        const fric = document.querySelectorAll('#fric');
-        const wh = document.querySelectorAll('#wh');
-
         function draw(element) {
             World.add(world, element)
-        }
-
-        function toRad(deg) {
-            return parseInt(deg) * (Math.PI / 180);
-        }
-
-        function toDeg(rad) {
-            return parseInt(rad) * (180 / Math.PI);
         }
 
         //== Engine creation
@@ -147,53 +114,24 @@
             );
         });
 
-        let floor = Bodies.rectangle(400, 300, 780, 20, {isStatic: true});
-        let panel = Bodies.rectangle(780, 260, 20, 100, {isStatic: true});
+        let floor = Bodies.rectangle(400, 300, 780, 20, {
+            isStatic: true,
+            friction: 0,
+            frictionAir: 0,
+        });
+
+        let panel = Bodies.rectangle(780, 260, 20, 100, {
+            isStatic: true,
+            friction: 0,
+            frictionAir: 0,
+        });
 
         let comp = Body.create({
-            parts: [panel, floor], isStatic: true,
+            parts: [floor, panel],
+            isStatic: true,
         });
-
         draw([comp]);
 
-        let rekt = Bodies.rectangle(300, 150, 50, 30, {
-            friction: 0.01, frictionAir: 0, mass: 1, angle: toRad(45), inertia: Infinity,
-        });
-
-        draw(rekt);
-
-        // Body.setAngle(comp, toRad(45));
-        // Body.setAngle(panel, toRad(45));
-
-        range.addEventListener('input', function () {
-            let radian = parseInt(range.value) * (Math.PI / 180);
-            deg.innerHTML = range.value;
-            // Body.setAngle(comp, radian);
-
-            Composite.rotate([floor, panel], parseInt(range.value), {x: 400, y: 300});
-
-            Body.setAngle(rekt, radian);
-            world.gravity.x = 0;
-
-            if (parseInt(range.value) > 45 && rekt.position.x >= 400) {
-                world.gravity.x = Math.sin(-radian);
-            } else {
-                world.gravity.x = 0;
-            }
-
-        });
-
-        fric.forEach((v, k) => {
-            v.addEventListener('change', () => {
-                rekt.friction = parseFloat(fric[k].dataset.val);
-            });
-        });
-
-        wh.forEach((v, k) => {
-            v.addEventListener('change', () => {
-                rekt.mass = parseFloat(wh[k].dataset.val);
-            });
-        });
     })();
 </script>
 </body>
