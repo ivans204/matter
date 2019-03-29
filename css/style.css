@@ -30,7 +30,7 @@ button:active, button:focus {
 .middle {
     position: relative;
     width: 800px;
-    height: 800px;
+    height: 600px;
 }
 
 .add-menu {

@@ -12,10 +12,77 @@
     <title>Energija</title>
     <link rel="stylesheet" href="css/style.css">
 
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        .bot {
+            position: absolute;
+            bottom: 5px;
+            left: 15px;
+            display: flex;
+            z-index: 10;
+        }
+
+        .box {
+            position: relative;
+            margin: 0 10px;
+            width: 80px;
+            text-align: center;
+            height: 125px;
+            color: #f2f2f2;
+            padding: 10px 0;
+        }
+
+        .box-in {
+            position: absolute;
+            width: 100%;
+            bottom: 0;
+            min-height: 3px;
+            overflow: hidden;
+        }
+
+        .kinetic {
+            background-color: #1c73c9;
+            max-height: 100%;
+            height: 100%;
+        }
+
+        .gravity {
+            background-color: #aa4ca1;
+            max-height: 100%;
+            height: 0;
+        }
+
+        .sum {
+            background-color: #f36f39;
+            height: 100%;
+        }
+    </style>
 </head>
 <body>
 <div class="middle" id="middle">
+    <div class="right">
+        <div class="formule">
 
+        </div>
+    </div>
+
+    <div class="bot">
+        <div class="box">
+            <div class="box-in kinetic">100</div>
+        </div>
+
+        <div class="box">
+            <div class="box-in gravity">0</div>
+        </div>
+
+        <div class="box">
+            <div class="box-in sum">100</div>
+        </div>
+    </div>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.11/lodash.min.js"></script>
@@ -46,6 +113,10 @@
             World.add(world, element)
         }
 
+        function toRad(deg) {
+            return parseInt(deg) * (Math.PI / 180);
+        }
+
         //== Engine creation
         let engine = Engine.create();
         let world = engine.world;
@@ -58,9 +129,9 @@
             options: {
                 width: 800,
                 height: 600,
-                wireframes: true,
+                wireframes: false,
                 background: '#f2f2f2',
-                showVelocity: false,
+                showVelocity: true,
             }
         });
 
@@ -83,10 +154,7 @@
         draw(mouseConstraint);
         render.mouse = mouse;
 
-        Render.lookAt(render, {
-            min: {x: 0, y: 0},
-            max: {x: 800, y: 600},
-        });
+        Render.lookAt(render, {min: {x: 0, y: 0}, max: {x: 800, y: 600}});
 
         let wallOptions = {
             restitution: 0,
@@ -114,24 +182,75 @@
             );
         });
 
-        let floor = Bodies.rectangle(400, 300, 780, 20, {
+        let floor = Bodies.rectangle(392, 424, 764, 20, {
+            render: {fillStyle: '#333'},
             isStatic: true,
             friction: 0,
             frictionAir: 0,
+            inertia: Infinity,
+            angle: toRad(25)
         });
 
-        let panel = Bodies.rectangle(780, 260, 20, 100, {
+        let panel = Bodies.rectangle(754, 526, 20, 100, {
+            render: {fillStyle: '#333'},
             isStatic: true,
             friction: 0,
             frictionAir: 0,
+            inertia: Infinity,
+            angle: toRad(25)
         });
 
-        let comp = Body.create({
-            parts: [floor, panel],
+        let l = Bodies.rectangle(80, 212, 20, 100, {
             isStatic: true,
+            friction: 0,
+            frictionAir: 0,
+            inertia: Infinity,
+            angle: toRad(25),
         });
-        draw([comp]);
+        draw([floor, panel, l]);
 
+        let trolly = Bodies.rectangle(100, 263, 60, 25, {
+            friction: 0,
+            frictionAir: 0,
+            velocity: {x: 0, y: 0},
+            mass: 1,
+            angle: toRad(25),
+            inertia: Infinity,
+            render: {fillStyle: '#32ee74'}
+        });
+        draw([trolly]);
+        Body.setAngle(trolly, toRad(25));
+
+        let kinetic = document.querySelector('.kinetic');
+        let grav = document.querySelector('.gravity');
+
+        Events.on(engine, 'tick',
+            _.throttle(() => {
+                let tvx = trolly.velocity.x;
+                let tvy = trolly.velocity.y;
+                let posY = trolly.position.y;
+
+                Body.setVelocity(trolly, {x: tvx + 0.01, y: tvy + 0.01});
+
+                if (SAT.collides(trolly, floor).collided) {
+                    world.gravity.y = 0;
+                } else {
+                    world.gravity.y = 1;
+                }
+
+                kinetic.style.height = (544 - posY) / 2.8 + '%';
+                grav.style.height = (posY - 261) / 2.82 + '%';
+
+                kinetic.innerHTML = Math.round((544 - posY) / 2.8);
+                grav.innerHTML = Math.round((posY - 261) / 2.82);
+
+                console.log(trolly.speed);
+
+                if (SAT.collides(trolly, panel).collided) {
+                    // Body.setVelocity(trolly, {x: 0, y: 0});
+                }
+            }, 10)
+        );
     })();
 </script>
 </body>
