@@ -12,6 +12,9 @@
     <title>Energija</title>
     <link rel="stylesheet" href="css/style.css">
 
+    <script type="text/javascript" async
+            src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+    </script>
 
     <style>
         * {
@@ -60,13 +63,76 @@
             background-color: #f36f39;
             height: 100%;
         }
+
+        .formule {
+            background-color: #f2f2f2;
+            width: 300px;
+            height: 250px;
+        }
+
+        .right .MJXc-display {
+            margin: 0;
+            padding: 5px;
+        }
+
+        .tt, .bb {
+            height: 50%;
+            width: 100%;
+            padding: 5px;
+        }
+
+        .bb {
+            border-top: 1px solid black;
+            display: flex;
+            font-size: 0.9rem;
+        }
+
     </style>
 </head>
 <body>
 <div class="middle" id="middle">
+    <div class="left">
+        <div class="wrap">
+            <span class="legend" style="background-color: #1c73c9"></span>
+            <span class="legend-title">Potencijalna</span>
+        </div>
+        <div class="wrap">
+            <span class="legend" style="background-color: #aa4ca1"></span>
+            <span class="legend-title">Kinetička</span>
+        </div>
+        <div class="wrap">
+            <span class="legend" style="background-color: #f36f39"></span>
+            <span class="legend-title">Ukupna</span>
+        </div>
+        <div class="wrap">
+            <span class="legend"></span>
+            <span class="legend-title">Brzina</span>
+        </div>
+    </div>
+
     <div class="right">
         <div class="formule">
-
+            <div class="tt">
+                <span>$$Ep = m * g * h\ [J]$$</span>
+                <span>$$Ek = \frac{m*v^2}{2}\ [J]$$</span>
+                <span>$$E = Ep+ Ek = konst.\ [J]$$</span>
+            </div>
+            <div class="bb">
+                <div class="col" style="text-align: center">
+                    <p>m = <span>1000</span><span> kg</span></p>
+                    <p>v = <span id="speed">0</span><span> m/s</span></p>
+                </div>
+                <div class="col" style="text-align: right; margin-right: 5px">
+                    <p>Ep = </p>
+                    <p>Ek = </p>
+                    <p>E = </p>
+                </div>
+                <div class="col" style="text-align: left">
+                    <p id="ep">0 <span> J</span></p>
+                    <p id="ek">0 <span> J</span></p>
+                    <p id="uk">2753098<span> J</span></p>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -74,11 +140,9 @@
         <div class="box">
             <div class="box-in kinetic">100</div>
         </div>
-
         <div class="box">
             <div class="box-in gravity">0</div>
         </div>
-
         <div class="box">
             <div class="box-in sum">100</div>
         </div>
@@ -94,20 +158,12 @@
         const Events = Matter.Events;
         const Render = Matter.Render;
         const Runner = Matter.Runner;
-        const Composites = Matter.Composites;
-        const Composite = Matter.Composite;
-        const Common = Matter.Common;
-        const Constraint = Matter.Constraint;
         const MouseConstraint = Matter.MouseConstraint;
         const Mouse = Matter.Mouse;
         const World = Matter.World;
-        const Vertices = Matter.Vertices;
         const Bodies = Matter.Bodies;
         const Body = Matter.Body;
         const SAT = Matter.SAT;
-        const Bounds = Matter.Bounds;
-        const Svg = Matter.Svg;
-        const Vector = Matter.Vector;
 
         function draw(element) {
             World.add(world, element)
@@ -158,7 +214,7 @@
 
         let wallOptions = {
             restitution: 0,
-            friction: 0.2,
+            friction: 0,
             frictionAir: 0,
             isStatic: true,
             render: {fillStyle: '#000'},
@@ -213,7 +269,7 @@
             friction: 0,
             frictionAir: 0,
             velocity: {x: 0, y: 0},
-            mass: 1,
+            mass: 1000,
             angle: toRad(25),
             inertia: Infinity,
             render: {fillStyle: '#32ee74'}
@@ -223,6 +279,13 @@
 
         let kinetic = document.querySelector('.kinetic');
         let grav = document.querySelector('.gravity');
+        let ep = document.getElementById('ep');
+        let ek = document.getElementById('ek');
+        let uk = document.getElementById('uk');
+        let speed = document.getElementById('speed');
+        let spp = 0;
+
+        world.gravity.y = 0;
 
         Events.on(engine, 'tick',
             _.throttle(() => {
@@ -235,7 +298,7 @@
                 if (SAT.collides(trolly, floor).collided) {
                     world.gravity.y = 0;
                 } else {
-                    world.gravity.y = 1;
+                    world.gravity.y = 0.5;
                 }
 
                 kinetic.style.height = (544 - posY) / 2.8 + '%';
@@ -244,13 +307,27 @@
                 kinetic.innerHTML = Math.round((544 - posY) / 2.8);
                 grav.innerHTML = Math.round((posY - 261) / 2.82);
 
-                console.log(trolly.speed);
+                if (kinetic.innerHTML > 100) kinetic.innerHTML = 100;
+                if (grav.innerHTML > 100) grav.innerHTML = 100;
 
-                if (SAT.collides(trolly, panel).collided) {
-                    // Body.setVelocity(trolly, {x: 0, y: 0});
+                ep.innerText = Math.round(trolly.mass * 9.81 * (543.6419514217247 - trolly.position.y));
+
+                spp = Math.sqrt((2 * (2753098 - ep.innerText)) / 1000);
+
+                ek.innerText = Math.round((trolly.mass * Math.pow(spp, 2)) / 2);
+                uk.innerText = parseFloat(ep.innerText) + parseFloat(ek.innerText);
+
+                speed.innerText = Math.round(spp * 100) / 100;
+
+                if (SAT.collides(trolly, panel, null).collided || mouseConstraint.mouse.button === 0) {
+                    speed.innerText = 0;
+                    // ep.innerText = 0;
+                    // ek.innerText = 0;
+                    // uk.innerText = 0;
                 }
             }, 10)
         );
+
     })();
 </script>
 </body>

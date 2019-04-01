@@ -176,13 +176,11 @@
                     let dot = Bodies.rectangle(ball.position.x, ball.position.y, 2, 2,
                         {isStatic: true, collisionFilter: {mask: 0x0002}, render: {fillStyle: '#333'}});
                     draw(dot);
-                    console.log(dot);
-
                 }
                 if (ball.position.y > 700) {
                     Composite.remove(world, ball);
                     ball = Bodies.circle(25, 300, 20,
-                        {mass: 23, frictionAir: 0, friction: 0}
+                        {mass: 23, frictionAir: 0, friction: 0, inertia: Infinity}
                     );
                     draw(ball)
                 }
