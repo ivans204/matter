@@ -9,5 +9,6 @@
     <orderEntry type="library" name="Accessible-full" level="application" />
     <orderEntry type="library" name="TeX-AMS_CHTML-full" level="application" />
     <orderEntry type="library" name="TeX-AMS_HTML-full" level="application" />
+    <orderEntry type="library" name="fetch" level="application" />
   </component>
 </module>

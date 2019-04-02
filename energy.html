@@ -87,6 +87,32 @@
             font-size: 0.9rem;
         }
 
+        .btn-reset {
+            position: absolute;
+            left: 0;
+            right: 0;
+            margin: 10px auto;
+            height: 30px;
+            width: 100px;
+            border-radius: 20px;
+            border: none;
+            background-color: #eea4ff;
+            font-weight: bold;
+        }
+
+        .btn-stop {
+            position: absolute;
+            left: 0;
+            right: 0;
+            margin: 45px auto;
+            height: 30px;
+            width: 100px;
+            border-radius: 20px;
+            border: none;
+            font-weight: bold;
+            background-color: #eea4ff;
+        }
+
     </style>
 </head>
 <body>
@@ -136,6 +162,9 @@
         </div>
     </div>
 
+    <button class="btn-reset">Reset</button>
+    <button class="btn-stop">Stop</button>
+
     <div class="bot">
         <div class="box">
             <div class="box-in kinetic">100</div>
@@ -151,6 +180,7 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.11/lodash.min.js"></script>
 <script src="JS/matter.js"></script>
+</body>
 <script>
     (function () {
 
@@ -164,6 +194,7 @@
         const Bodies = Matter.Bodies;
         const Body = Matter.Body;
         const SAT = Matter.SAT;
+        const Composite = Matter.Composite;
 
         function draw(element) {
             World.add(world, element)
@@ -277,58 +308,80 @@
         draw([trolly]);
         Body.setAngle(trolly, toRad(25));
 
-        let kinetic = document.querySelector('.kinetic');
-        let grav = document.querySelector('.gravity');
-        let ep = document.getElementById('ep');
-        let ek = document.getElementById('ek');
-        let uk = document.getElementById('uk');
-        let speed = document.getElementById('speed');
-        let spp = 0;
+        const kinetic = document.querySelector('.kinetic');
+        const pot = document.querySelector('.gravity');
+        const btnReset = document.querySelector('.btn-reset');
+        const btnStop = document.querySelector('.btn-stop');
+        const ep = document.getElementById('ep');
+        const ek = document.getElementById('ek');
+        const uk = document.getElementById('uk');
+        const speed = document.getElementById('speed');
 
-        world.gravity.y = 0;
+        let spp = 0;
+        let sy = 0;
+        let start = false;
+
+        btnReset.addEventListener('click', () => {
+            Composite.remove(world, trolly);
+            trolly = Bodies.rectangle(100, 263, 60, 25, {
+                friction: 0,
+                frictionAir: 0,
+                velocity: {x: 0, y: 0},
+                mass: 1000,
+                angle: toRad(25),
+                inertia: Infinity,
+                render: {fillStyle: '#32ee74'}
+            });
+            draw(trolly);
+            sy = 0;
+        });
+
+        btnStop.addEventListener('click', () => {
+            if (!start) {
+                Runner.stop(runner);
+                start = true;
+                btnStop.innerHTML = 'Start';
+            } else if (start) {
+                Runner.start(runner, engine);
+                start = false;
+                btnStop.innerHTML = 'Stop';
+            }
+        });
 
         Events.on(engine, 'tick',
             _.throttle(() => {
-                let tvx = trolly.velocity.x;
-                let tvy = trolly.velocity.y;
                 let posY = trolly.position.y;
+                let posX = trolly.position.x;
 
-                Body.setVelocity(trolly, {x: tvx + 0.01, y: tvy + 0.01});
+                !SAT.collides(trolly, panel, null).collided ? sy += 0.01 : speed.innerText = 0;
 
-                if (SAT.collides(trolly, floor).collided) {
-                    world.gravity.y = 0;
-                } else {
-                    world.gravity.y = 0.5;
-                }
+                Body.setVelocity(trolly, {x: 0, y: sy});
 
-                kinetic.style.height = (544 - posY) / 2.8 + '%';
-                grav.style.height = (posY - 261) / 2.82 + '%';
+                pot.style.height = (posX - 98.195438618) / 6.01804 + '%';
+                kinetic.style.height = (701.8045613818003 - posX) / 6.01804 + '%';
 
-                kinetic.innerHTML = Math.round((544 - posY) / 2.8);
-                grav.innerHTML = Math.round((posY - 261) / 2.82);
+                pot.innerHTML = Math.round((posX - 98.195438618) / 6.01804);
+                kinetic.innerHTML = Math.round((701.8045613818003 - posX) / 6.01804);
 
+                if (pot.innerHTML > 100) pot.innerHTML = 100;
                 if (kinetic.innerHTML > 100) kinetic.innerHTML = 100;
-                if (grav.innerHTML > 100) grav.innerHTML = 100;
 
-                ep.innerText = Math.round(trolly.mass * 9.81 * (543.6419514217247 - trolly.position.y));
+                ep.innerText = Math.round(trolly.mass * 9.81 * (543.8013 - posY));
+                spp = Math.sqrt((2 * (2753098 - ep.innerText)) / trolly.mass);
 
-                spp = Math.sqrt((2 * (2753098 - ep.innerText)) / 1000);
-
-                ek.innerText = Math.round((trolly.mass * Math.pow(spp, 2)) / 2);
+                ek.innerText = Math.round((trolly.mass * (spp * spp)) / 2);
                 uk.innerText = parseFloat(ep.innerText) + parseFloat(ek.innerText);
 
                 speed.innerText = Math.round(spp * 100) / 100;
 
-                if (SAT.collides(trolly, panel, null).collided || mouseConstraint.mouse.button === 0) {
+                if (mouseConstraint.mouse.button === 0) {
+                    ep.innerText = 0;
+                    ek.innerText = 0;
+                    uk.innerText = 0;
                     speed.innerText = 0;
-                    // ep.innerText = 0;
-                    // ek.innerText = 0;
-                    // uk.innerText = 0;
                 }
             }, 10)
         );
-
     })();
 </script>
-</body>
 </html>
