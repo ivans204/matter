@@ -2,9 +2,12 @@
   <dictionary name="ivan">
     <words>
       <w>ancor</w>
+      <w>axios</w>
       <w>brzina</w>
+      <w>btpb</w>
       <w>collider</w>
       <w>consttest</w>
+      <w>cssnano</w>
       <w>dbff</w>
       <w>decomp</w>
       <w>dinamo</w>
@@ -18,14 +21,19 @@
       <w>freefall</w>
       <w>fric</w>
       <w>funkcije</w>
+      <w>gibanje</w>
       <w>gmnm</w>
       <w>gospa</w>
       <w>grav</w>
       <w>gravitacije</w>
       <w>gravitacijska</w>
+      <w>hgme</w>
       <w>hitac</w>
       <w>hitci</w>
+      <w>horizontalni</w>
       <w>iconmonstr</w>
+      <w>intervolga</w>
+      <w>iocgvbw</w>
       <w>ispod</w>
       <w>kineticka</w>
       <w>kinetička</w>
@@ -34,6 +42,7 @@
       <w>konst</w>
       <w>korak</w>
       <w>krug</w>
+      <w>kruzno</w>
       <w>kutkut</w>
       <w>letva</w>
       <w>lijevo</w>
@@ -42,10 +51,16 @@
       <w>masa</w>
       <w>matematicko</w>
       <w>mjesec</w>
+      <w>mrmlnc</w>
       <w>mult</w>
+      <w>mzyig</w>
       <w>nista</w>
       <w>njihalo</w>
       <w>nkbuea</w>
+      <w>nodelib</w>
+      <w>noopener</w>
+      <w>npmjs</w>
+      <w>nprogress</w>
       <w>ocuvanja</w>
       <w>planeti</w>
       <w>pokus</w>
@@ -54,6 +69,7 @@
       <w>potencijalna</w>
       <w>preko</w>
       <w>pucaj</w>
+      <w>reddit</w>
       <w>rekt</w>
       <w>slobnodni</w>
       <w>slobodni</w>
@@ -65,12 +81,15 @@
       <w>trenje</w>
       <w>trolly</w>
       <w>ukupna</w>
+      <w>unpkg</w>
       <w>unutarnja</w>
       <w>vdom</w>
       <w>velo</w>
       <w>verlet</w>
       <w>visi</w>
+      <w>vlnbb</w>
       <w>vrijeme</w>
+      <w>wbuwl</w>
       <w>wireframe</w>
       <w>wireframes</w>
       <w>ysyem</w>

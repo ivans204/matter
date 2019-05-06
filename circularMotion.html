@@ -8,32 +8,31 @@
     <title>Circular Motion</title>
 
     <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css">
+    <!--    <link rel="stylesheet" href="css/style.css">-->
 
 </head>
 <body>
+<div class="kruzno-gibanje-middle" id="kruzno-gibanje-middle">
 
-<div class="middle" id="middle">
-
-    <div class="left">
-        <div class="wrap">
-            <span class="legend"></span><span class="legend-title">Brzina</span>
+    <div class="kruzno-gibanje-left">
+        <div class="kruzno-gibanje-wrap">
+            <span class="kruzno-gibanje-legend"></span><span class="kruzno-gibanje-legend-title">Brzina</span>
         </div>
     </div>
 
-    <div class="right">
-        <button id="btn-shoot">Start</button>
-        <div class="w">
-            <p class="time">Brzina:</p>
-            <p id="time-value">0</p>
+    <div class="kruzno-gibanje-right">
+        <button id="kruzno-gibanje-btn-shoot">Start</button>
+        <div class="kruzno-gibanje-clock">
+            <p class="kruzno-gibanje-time">Brzina:</p>
+            <p id="kruzno-gibanje-time-value">0</p>
         </div>
-        <div class="wrapper">
-            <input id="check" type="checkbox"><span>Bez gravitacije</span>
+        <div class="kruzno-gibanje-wrapper">
+            <input id="kruzno-gibanje-check" type="checkbox"><span>Bez gravitacije</span>
         </div>
     </div>
 </div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.11/lodash.min.js"></script>
-<script src="JS/matter.js"></script>
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.11/lodash.min.js"></script>-->
+<!--<script src="JS/matter.js"></script>-->
 <script>
     (function () {
         const Engine = Matter.Engine;
@@ -54,10 +53,10 @@
         let engine = Engine.create();
         let world = engine.world;
 
-        const mid = document.getElementById('middle');
-        const shoot = document.getElementById('btn-shoot');
-        const timeVal = document.getElementById('time-value');
-        const check = document.getElementById('check');
+        const mid = document.getElementById('kruzno-gibanje-middle');
+        const shoot = document.getElementById('kruzno-gibanje-btn-shoot');
+        const timeVal = document.getElementById('kruzno-gibanje-time-value');
+        const check = document.getElementById('kruzno-gibanje-check');
 
         let render = Render.create({
             element: mid,
@@ -142,7 +141,82 @@
             }, 50)
         );
     })();
-
 </script>
+<style>
+    .kruzno-gibanje-middle {
+        position: relative;
+        width: 800px;
+        height: 600px;
+    }
+
+    .kruzno-gibanje-left {
+        min-width: 150px;
+        position: absolute;
+        left: 10px;
+        top: 5px;
+        font-size: 12px;
+    }
+
+    .kruzno-gibanje-wrap {
+        display: flex;
+        align-items: center;
+        flex-direction: row;
+        margin-top: 10px;
+    }
+
+    .kruzno-gibanje-legend {
+        width: 50px;
+        height: 10px;
+        background-color: cornflowerblue;
+    }
+
+    .kruzno-gibanje-legend-title {
+        margin-left: 5px;
+    }
+
+    .kruzno-gibanje-right {
+        min-width: 150px;
+        position: absolute;
+        right: 10px;
+        top: 10px;
+    }
+
+    #kruzno-gibanje-btn-shoot {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 10px;
+        width: 100px;
+        height: 30px;
+        background: #fff;
+        border: 1px solid #706fd8;
+        border-radius: 10px;
+        cursor: pointer;
+    }
+
+    .kruzno-gibanje-time {
+        text-align: right;
+        color: #000;
+        width: 50%;
+        margin-left: 20px;
+    }
+
+    .kruzno-gibanje-clock {
+        display: flex;
+        width: 100%;
+    }
+
+    #kruzno-gibanje-time-value {
+        width: 50%;
+        text-align: left;
+        margin-left: 5px;
+    }
+
+    .kruzno-gibanje-wrapper {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+</style>
 </body>
 </html>

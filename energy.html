@@ -10,176 +10,77 @@
                    minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Energija</title>
-    <link rel="stylesheet" href="css/style.css">
+    <!--    <link rel="stylesheet" href="css/style.css">-->
 
-    <script type="text/javascript" async
-            src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
-    </script>
+    <!--    <script type="text/javascript" async-->
+    <!--            src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">-->
+    <!--    </script>-->
 
-    <style>
-        * {
-            box-sizing: border-box;
-        }
-
-        .bot {
-            position: absolute;
-            bottom: 5px;
-            left: 15px;
-            display: flex;
-            z-index: 10;
-        }
-
-        .box {
-            position: relative;
-            margin: 0 10px;
-            width: 80px;
-            text-align: center;
-            height: 125px;
-            color: #f2f2f2;
-            padding: 10px 0;
-        }
-
-        .box-in {
-            position: absolute;
-            width: 100%;
-            bottom: 0;
-            min-height: 3px;
-            overflow: hidden;
-        }
-
-        .kinetic {
-            background-color: #1c73c9;
-            max-height: 100%;
-            height: 100%;
-        }
-
-        .gravity {
-            background-color: #aa4ca1;
-            max-height: 100%;
-            height: 0;
-        }
-
-        .sum {
-            background-color: #f36f39;
-            height: 100%;
-        }
-
-        .formule {
-            background-color: #f2f2f2;
-            width: 300px;
-            height: 250px;
-        }
-
-        .right .MJXc-display {
-            margin: 0;
-            padding: 5px;
-        }
-
-        .tt, .bb {
-            height: 50%;
-            width: 100%;
-            padding: 5px;
-        }
-
-        .bb {
-            border-top: 1px solid black;
-            display: flex;
-            font-size: 0.9rem;
-        }
-
-        .btn-reset {
-            position: absolute;
-            left: 0;
-            right: 0;
-            margin: 10px auto;
-            height: 30px;
-            width: 100px;
-            border-radius: 20px;
-            border: none;
-            background-color: #eea4ff;
-            font-weight: bold;
-        }
-
-        .btn-stop {
-            position: absolute;
-            left: 0;
-            right: 0;
-            margin: 45px auto;
-            height: 30px;
-            width: 100px;
-            border-radius: 20px;
-            border: none;
-            font-weight: bold;
-            background-color: #eea4ff;
-        }
-
-    </style>
 </head>
 <body>
-<div class="middle" id="middle">
-    <div class="left">
-        <div class="wrap">
-            <span class="legend" style="background-color: #1c73c9"></span>
-            <span class="legend-title">Potencijalna</span>
+<div class="energy-middle" id="energy-middle">
+    <div class="energy-left">
+        <div class="energy-wrap">
+            <span class="energy-legend" style="background-color: #1c73c9"></span>
+            <span class="energy-legend-title">Potencijalna</span>
         </div>
-        <div class="wrap">
-            <span class="legend" style="background-color: #aa4ca1"></span>
-            <span class="legend-title">Kinetička</span>
+        <div class="energy-wrap">
+            <span class="energy-legend" style="background-color: #aa4ca1"></span>
+            <span class="energy-legend-title">Kinetička</span>
         </div>
-        <div class="wrap">
-            <span class="legend" style="background-color: #f36f39"></span>
-            <span class="legend-title">Ukupna</span>
+        <div class="energy-wrap">
+            <span class="energy-legend" style="background-color: #f36f39"></span>
+            <span class="energy-legend-title">Ukupna</span>
         </div>
-        <div class="wrap">
-            <span class="legend"></span>
-            <span class="legend-title">Brzina</span>
+        <div class="energy-wrap">
+            <span class="energy-legend"></span>
+            <span class="energy-legend-title">Brzina</span>
         </div>
     </div>
 
-    <div class="right">
-        <div class="formule">
-            <div class="tt">
-                <span>$$Ep = m * g * h\ [J]$$</span>
+    <div class="energy-right">
+        <div class="energy-formule">
+            <div class="energy-top-formula"><span>$$Ep = m * g * h\ [J]$$</span>
                 <span>$$Ek = \frac{m*v^2}{2}\ [J]$$</span>
                 <span>$$E = Ep+ Ek = konst.\ [J]$$</span>
             </div>
-            <div class="bb">
-                <div class="col" style="text-align: center">
+            <div class="energy-bot-formula">
+                <div class="energy-col" style="text-align: center">
                     <p>m = <span>1000</span><span> kg</span></p>
-                    <p>v = <span id="speed">0</span><span> m/s</span></p>
+                    <p>v = <span id="energy-speed">0</span><span> m/s</span></p>
                 </div>
-                <div class="col" style="text-align: right; margin-right: 5px">
+                <div class="energy-col" style="text-align: right; margin-right: 5px">
                     <p>Ep = </p>
                     <p>Ek = </p>
                     <p>E = </p>
                 </div>
-                <div class="col" style="text-align: left">
-                    <p id="ep">0 <span> J</span></p>
-                    <p id="ek">0 <span> J</span></p>
-                    <p id="uk">2753098<span> J</span></p>
+                <div class="energy-col" style="text-align: left">
+                    <p id="energy-ep">0 <span> J</span></p>
+                    <p id="energy-ek">0 <span> J</span></p>
+                    <p id="energy-uk">2753098<span> J</span></p>
                 </div>
             </div>
         </div>
     </div>
 
-    <button class="btn-reset">Reset</button>
-    <button class="btn-stop">Stop</button>
+    <button class="energy-btn-reset">Reset</button>
+    <button class="energy-btn-stop">Stop</button>
 
-    <div class="bot">
-        <div class="box">
-            <div class="box-in kinetic">100</div>
+    <div class="energy-bot">
+        <div class="energy-box">
+            <div class="energy-box-in energy-kinetic">100</div>
         </div>
-        <div class="box">
-            <div class="box-in gravity">0</div>
+        <div class="energy-box">
+            <div class="energy-box-in energy-gravity">0</div>
         </div>
-        <div class="box">
-            <div class="box-in sum">100</div>
+        <div class="energy-box">
+            <div class="energy-box-in energy-sum">100</div>
         </div>
     </div>
 </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.11/lodash.min.js"></script>
-<script src="JS/matter.js"></script>
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.11/lodash.min.js"></script>-->
+<!--<script src="JS/matter.js"></script>-->
 </body>
 <script>
     (function () {
@@ -208,7 +109,7 @@
         let engine = Engine.create();
         let world = engine.world;
 
-        const mid = document.getElementById('middle');
+        const mid = document.getElementById('energy-middle');
 
         let render = Render.create({
             element: mid,
@@ -308,14 +209,14 @@
         draw([trolly]);
         Body.setAngle(trolly, toRad(25));
 
-        const kinetic = document.querySelector('.kinetic');
-        const pot = document.querySelector('.gravity');
-        const btnReset = document.querySelector('.btn-reset');
-        const btnStop = document.querySelector('.btn-stop');
-        const ep = document.getElementById('ep');
-        const ek = document.getElementById('ek');
-        const uk = document.getElementById('uk');
-        const speed = document.getElementById('speed');
+        const kinetic = document.querySelector('.energy-kinetic');
+        const pot = document.querySelector('.energy-gravity');
+        const btnReset = document.querySelector('.energy-btn-reset');
+        const btnStop = document.querySelector('.energy-btn-stop');
+        const ep = document.getElementById('energy-ep');
+        const ek = document.getElementById('energy-ek');
+        const uk = document.getElementById('energy-uk');
+        const speed = document.getElementById('energy-speed');
 
         let spp = 0;
         let sy = 0;
@@ -384,4 +285,142 @@
         );
     })();
 </script>
+<style>
+
+    .energy-middle {
+        position: relative;
+        width: 800px;
+        height: 600px;
+    }
+
+    .energy-bot {
+        position: absolute;
+        bottom: 5px;
+        left: 15px;
+        display: flex;
+        z-index: 10;
+    }
+
+    .energy-left {
+        min-width: 150px;
+        position: absolute;
+        left: 10px;
+        top: 5px;
+        font-size: 12px;
+    }
+
+    .energy-wrap {
+        display: flex;
+        align-items: center;
+        flex-direction: row;
+        margin-top: 10px;
+    }
+
+    .energy-legend {
+        width: 50px;
+        height: 10px;
+        background-color: cornflowerblue;
+    }
+
+    .energy-legend-title {
+        margin-left: 5px;
+    }
+
+    .energy-right {
+        min-width: 150px;
+        position: absolute;
+        right: 10px;
+        top: 10px;
+    }
+
+    .energy-col {
+        flex: 1;
+        flex-direction: column;
+    }
+
+    .energy-box {
+        position: relative;
+        margin: 0 10px;
+        width: 80px;
+        text-align: center;
+        height: 125px;
+        color: #f2f2f2;
+        padding: 10px 0;
+    }
+
+    .energy-box-in {
+        position: absolute;
+        width: 100%;
+        bottom: 0;
+        min-height: 3px;
+        overflow: hidden;
+    }
+
+    .energy-kinetic {
+        background-color: #1c73c9;
+        max-height: 100%;
+        height: 100%;
+    }
+
+    .energy-gravity {
+        background-color: #aa4ca1;
+        max-height: 100%;
+        height: 0;
+    }
+
+    .energy-sum {
+        background-color: #f36f39;
+        height: 100%;
+    }
+
+    .energy-formule {
+        background-color: #f2f2f2;
+        width: 300px;
+        height: 250px;
+    }
+
+    .energy-right .MJXc-display {
+        margin: 0;
+        padding: 5px;
+    }
+
+    .energy-top-formula, .energy-bot-formula {
+        height: 50%;
+        width: 100%;
+        padding: 5px;
+    }
+
+    .energy-bot-formula {
+        border-top: 1px solid black;
+        display: flex;
+        font-size: 0.9rem;
+    }
+
+    .energy-btn-reset {
+        position: absolute;
+        left: 0;
+        right: 0;
+        margin: 10px auto;
+        height: 30px;
+        width: 100px;
+        border-radius: 20px;
+        border: none;
+        background-color: #eea4ff;
+        font-weight: bold;
+    }
+
+    .energy-btn-stop {
+        position: absolute;
+        left: 0;
+        right: 0;
+        margin: 45px auto;
+        height: 30px;
+        width: 100px;
+        border-radius: 20px;
+        border: none;
+        font-weight: bold;
+        background-color: #eea4ff;
+    }
+
+</style>
 </html>

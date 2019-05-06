@@ -7,92 +7,47 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>ZoE</title>
 
-    <link rel="stylesheet" href="css/style.css">
-
-    <style>
-        * {
-            box-sizing: border-box;
-        }
-
-        .bot {
-            position: absolute;
-            bottom: 5px;
-            left: 250px;
-            display: flex;
-            z-index: 10;
-        }
-
-        .box {
-            position: relative;
-            margin: 0 10px;
-            width: 80px;
-            text-align: center;
-            height: 125px;
-            color: #f2f2f2;
-            padding: 10px 0;
-        }
-
-        .box-in {
-            position: absolute;
-            width: 100%;
-            bottom: 0;
-            min-height: 3px;
-            overflow: hidden;
-        }
-
-        .kinetic {
-            background-color: #1c73c9;
-            height: 0%;
-        }
-
-        .gravity {
-            background-color: #aa4ca1;
-            height: 100%;
-        }
-
-        .sum {
-            background-color: #f36f39;
-            height: 125px;
-        }
-    </style>
+<!--    <link rel="stylesheet" href="css/style.css">-->
 </head>
 <body>
 
-<div class="middle" id="middle">
+<div class="zoe-middle" id="zoe-middle">
 
-    <div class="left">
-        <div class="wrap">
-            <span class="legend" style="background-color: #1c73c9"></span>
-            <span class="legend-title">Kinetička</span>
+    <div class="zoe-left">
+        <div class="zoe-wrap">
+            <span class="zoe-legend" style="background-color: #1c73c9"></span>
+            <span class="zoe-legend-title">Kinetička</span>
         </div>
 
-        <div class="wrap">
-            <span class="legend" style="background-color: #aa4ca1"></span>
-            <span class="legend-title">Gravitacijska</span>
+        <div class="zoe-wrap">
+            <span class="zoe-legend" style="background-color: #aa4ca1"></span>
+            <span class="zoe-legend-title">Gravitacijska</span>
         </div>
 
-        <div class="wrap">
-            <span class="legend" style="background-color: #f36f39"></span>
-            <span class="legend-title">Ukupna</span>
+        <div class="zoe-wrap">
+            <span class="zoe-legend" style="background-color: #f36f39"></span>
+            <span class="zoe-legend-title">Ukupna</span>
         </div>
     </div>
 
-    <div class="bot">
-        <div class="box">
-            <div class="box-in kinetic">0</div>
+    <div class="zoe-bot">
+        <div class="zoe-box">
+            <div class="zoe-box-in zoe-kinetic">0</div>
         </div>
 
-        <div class="box">
-            <div class="box-in gravity">100</div>
+        <div class="zoe-box">
+            <div class="zoe-box-in zoe-gravity">100</div>
         </div>
 
-        <div class="box">
-            <div class="box-in sum">100</div>
+        <div class="zoe-box">
+            <div class="zoe-box-in zoe-sum">100</div>
         </div>
     </div>
 </div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.11/lodash.min.js"></script>
-<script src="JS/matter.js"></script>
+
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.11/lodash.min.js"></script>-->
+<!--<script src="JS/matter.js"></script>-->
+
 <script>
     (function () {
 
@@ -108,7 +63,6 @@
         const Body = Matter.Body;
         const SAT = Matter.SAT;
 
-
         function draw(element) {
             World.add(world, element)
         }
@@ -117,7 +71,7 @@
         let engine = Engine.create();
         let world = engine.world;
 
-        const mid = document.getElementById('middle');
+        const mid = document.getElementById('zoe-middle');
 
         let render = Render.create({
             element: mid,
@@ -154,7 +108,6 @@
             max: {x: 800, y: 600},
         });
 
-
         let ball = Bodies.circle(650, 45, 35, {
             inertia: Infinity, restitution: 1.2, friction: 0, frictionAir: 0, slop: 1, mass: 10,
             render: {fillStyle: '#333'}
@@ -172,8 +125,8 @@
         let wall = Bodies.rectangle(400, 0, 800, 22.5, {isStatic: true});
         draw([wall]);
 
-        let kinetic = document.querySelector('.kinetic');
-        let grav = document.querySelector('.gravity');
+        let kinetic = document.querySelector('.zoe-kinetic');
+        let grav = document.querySelector('.zoe-gravity');
 
         Events.on(engine, 'beforeUpdate', () => {
             let col = SAT.collides(ball, wall).collided;
@@ -184,14 +137,85 @@
 
             kinetic.innerHTML = Math.round((ballY - 45) / 2.55);
             grav.innerHTML = Math.round((300 - ballY) / 2.55);
-            
+
             if (col) {
                 Body.setVelocity(ball, {x: 0, y: 6.5})
             }
         });
-
     })();
-
 </script>
+<style>
+    .zoe-middle {
+        position: relative;
+        width: 800px;
+        height: 600px;
+    }
+
+    .zoe-bot {
+        position: absolute;
+        bottom: 5px;
+        left: 250px;
+        display: flex;
+        z-index: 10;
+    }
+
+    .zoe-left {
+        min-width: 150px;
+        position: absolute;
+        left: 10px;
+        top: 5px;
+        font-size: 12px;
+    }
+
+    .zoe-box {
+        position: relative;
+        margin: 0 10px;
+        width: 80px;
+        text-align: center;
+        height: 125px;
+        color: #f2f2f2;
+        padding: 10px 0;
+    }
+
+    .zoe-box-in {
+        position: absolute;
+        width: 100%;
+        bottom: 0;
+        min-height: 3px;
+        overflow: hidden;
+    }
+
+    .zoe-wrap {
+        display: flex;
+        align-items: center;
+        flex-direction: row;
+        margin-top: 10px;
+    }
+
+    .zoe-kinetic {
+        background-color: #1c73c9;
+        height: 0%;
+    }
+
+    .zoe-gravity {
+        background-color: #aa4ca1;
+        height: 100%;
+    }
+
+    .zoe-sum {
+        background-color: #f36f39;
+        height: 125px;
+    }
+
+    .zoe-legend {
+        width: 50px;
+        height: 10px;
+        background-color: cornflowerblue;
+    }
+
+    .zoe-legend-title {
+        margin-left: 5px;
+    }
+</style>
 </body>
 </html>

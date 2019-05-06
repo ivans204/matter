@@ -12,48 +12,50 @@
     <title>Slobnodni pad</title>
 
     <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css">
+<!--    <link rel="stylesheet" href="css/style.css">-->
 
-    <script type="text/javascript" async
-            src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
-    </script>
+<!--    <script type="text/javascript" async-->
+<!--            src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">-->
+<!--    </script>-->
 </head>
+
 <body>
-<div class="middle" id="middle">
-    <div class="top">
-        <div class="info">
-            <p class="info-title">Jupiter</p>
+<div class="free-fall-middle" id="free-fall-middle">
+    <div class="free-fall-top">
+        <div class="free-fall-info">
+            <p class="free-fall-info-title">Jupiter</p>
             <span>$$g &asymp; 23.12\ ms^{-23}$$</span>
             <span>$$m &asymp; 1.90 * 10^{30} kg$$</span>
             <span>$$r &asymp; 71492 km$$</span>
         </div>
-        <div class="info">
-            <span class="info-title">Saturn</span>
+        <div class="free-fall-info">
+            <span class="free-fall-info-title">Saturn</span>
             <span>$$g &asymp; 10.44\ ms^{-2}$$</span>
             <span>$$m &asymp; 5.68 * 10^{26}\ kg$$</span>
             <span>$$r &asymp; 60268\ km$$</span>
         </div>
-        <div class="info">
-            <span class="info-title">Zemlja</span>
+        <div class="free-fall-info">
+            <span class="free-fall-info-title">Zemlja</span>
             <span>$$g &asymp; 9.81\ ms^{-2}$$</span>
             <span>$$m &asymp; 6 * 10^{24}\ kg$$</span>
             <span>$$r &asymp; 6371\ km$$</span>
         </div>
-        <div class="info">
-            <span class="info-title">Mjesec</span>
+        <div class="free-fall-info">
+            <span class="free-fall-info-title">Mjesec</span>
             <span>$$g &asymp; 1.62\ ms^{-2}$$</span>
             <span>$$m &asymp; 7.35 * 10^{22}\ kg$$</span>
             <span>$$r &asymp; 1737.1\ km$$</span>
         </div>
-        <div class="info">
-            <span class="info-title">Svemir</span>
+        <div class="free-fall-info">
+            <span class="free-fall-info-title">Svemir</span>
             <span>$$g &asymp; 0\ ms^{-2}$$</span>
         </div>
     </div>
 </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.11/lodash.min.js"></script>
-<script src="JS/matter.js"></script>
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.11/lodash.min.js"></script>-->
+<!--<script src="JS/matter.js"></script>-->
+
 <script>
     (function () {
         const Engine = Matter.Engine;
@@ -72,7 +74,7 @@
         let engine = Engine.create();
         let world = engine.world;
 
-        const mid = document.getElementById('middle');
+        const mid = document.getElementById('free-fall-middle');
 
         let render = Render.create({
             element: mid,
@@ -206,5 +208,49 @@
         });
     })();
 </script>
+
+<style>
+    .free-fall-middle {
+        position: relative;
+        width: 800px;
+        height: 600px;
+    }
+
+    .free-fall-top {
+        position: absolute;
+        top: 50%;
+        width: 100%;
+        height: 60px;
+        background-color: transparent;
+        display: flex;
+        flex-direction: row;
+        pointer-events: none;
+    }
+
+    .free-fall-info {
+        width: 20%;
+        height: 72px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        user-input: none;
+        margin: 0;
+    }
+
+    .free-fall-info-title {
+        font-weight: bold;
+        margin: 0;
+    }
+
+    .free-fall-info span {
+        font-size: 14px;
+    }
+
+    .free-fall-info .MJXc-display {
+        margin: 0;
+    }
+</style>
 </body>
 </html>
