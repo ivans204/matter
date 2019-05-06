@@ -10,11 +10,11 @@
                    minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Energija</title>
-    <!--    <link rel="stylesheet" href="css/style.css">-->
+    <link rel="stylesheet" href="css/style.css">
 
-    <!--    <script type="text/javascript" async-->
-    <!--            src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">-->
-    <!--    </script>-->
+    <script type="text/javascript" async
+            src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+    </script>
 
 </head>
 <body>
@@ -22,42 +22,56 @@
     <div class="energy-left">
         <div class="energy-wrap">
             <span class="energy-legend" style="background-color: #1c73c9"></span>
-            <span class="energy-legend-title">Potencijalna</span>
+            <span class="energy-legend-title">potencijalna energija</span>
         </div>
         <div class="energy-wrap">
             <span class="energy-legend" style="background-color: #aa4ca1"></span>
-            <span class="energy-legend-title">Kinetička</span>
+            <span class="energy-legend-title">kinetička energija</span>
         </div>
         <div class="energy-wrap">
             <span class="energy-legend" style="background-color: #f36f39"></span>
-            <span class="energy-legend-title">Ukupna</span>
-        </div>
-        <div class="energy-wrap">
-            <span class="energy-legend"></span>
-            <span class="energy-legend-title">Brzina</span>
+            <span class="energy-legend-title">ukupna energija</span>
         </div>
     </div>
 
     <div class="energy-right">
         <div class="energy-formule">
-            <div class="energy-top-formula"><span>$$Ep = m * g * h\ [J]$$</span>
-                <span>$$Ek = \frac{m*v^2}{2}\ [J]$$</span>
-                <span>$$E = Ep+ Ek = konst.\ [J]$$</span>
+            <div class="energy-top-formula">
+                <p class="energy-right-formula-text">$$Ep = m &middot g &middot h$$</p>
+                <p class="energy-right-formula-text">$$Ek = \frac{m &middot v^2}{2}$$</p>
+                <p class="energy-right-formula-text">$$E = Ep+ Ek = konst.$$</p>
             </div>
+
             <div class="energy-bot-formula">
-                <div class="energy-col" style="text-align: center">
-                    <p>m = <span>1000</span><span> kg</span></p>
-                    <p>v = <span id="energy-speed">0</span><span> m/s</span></p>
+                <div class="energy-col">
+                    <div class="energy-formula">
+                        <span class="energy-formula-var">$$m = $$</span>
+                        <span class="energy-formula-var"> 1000</span>
+                        <span class="energy-formula-var">&nbsp kg</span>
+                    </div>
+                    <div class="energy-formula">
+                        <span class="energy-formula-var">$$v = $$ &nbsp</span>
+                        <span class="energy-formula-var" id="energy-speed">&nbsp 0</span>
+                        <span class="energy-formula-var">&nbsp m/s</span>
+                    </div>
                 </div>
-                <div class="energy-col" style="text-align: right; margin-right: 5px">
-                    <p>Ep = </p>
-                    <p>Ek = </p>
-                    <p>E = </p>
-                </div>
-                <div class="energy-col" style="text-align: left">
-                    <p id="energy-ep">0 <span> J</span></p>
-                    <p id="energy-ek">0 <span> J</span></p>
-                    <p id="energy-uk">2753098<span> J</span></p>
+
+                <div class="energy-col">
+                    <div class="energy-formula">
+                        <span class="energy-formula-var">$$Ep = $$ &nbsp</span>
+                        <span class="energy-formula-var" id="energy-ep">0</span>
+                        <span class="energy-formula-mj">&nbsp J</span>
+                    </div>
+                    <div class="energy-formula">
+                        <span class="energy-formula-var">$$Ep = $$ &nbsp</span>
+                        <span class="energy-formula-var" id="energy-ek">0</span>
+                        <span class="energy-formula-mj">&nbsp J</span>
+                    </div>
+                    <div class="energy-formula">
+                        <span class="energy-formula-var">$$Ep = $$ &nbsp</span>
+                        <span class="energy-formula-var" id="energy-uk"> &nbsp 2753098 &nbsp</span>
+                        <span class="energy-formula-mj"> &nbsp J</span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -79,8 +93,8 @@
     </div>
 </div>
 
-<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.11/lodash.min.js"></script>-->
-<!--<script src="JS/matter.js"></script>-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.11/lodash.min.js"></script>
+<script src="JS/matter.js"></script>
 </body>
 <script>
     (function () {
@@ -335,7 +349,6 @@
 
     .energy-col {
         flex: 1;
-        flex-direction: column;
     }
 
     .energy-box {
@@ -420,6 +433,26 @@
         border: none;
         font-weight: bold;
         background-color: #eea4ff;
+    }
+
+    .energy-right-formula-text {
+        margin: 0;
+        padding: 0;
+    }
+
+    .energy-formula {
+        display: flex;
+        text-align: center;
+        height: 33.33%;
+        align-items: baseline;
+    }
+
+    .energy-formula-var {
+        width: 40%;
+    }
+
+    .energy-formula-mj {
+        width: 20%;
     }
 
 </style>
