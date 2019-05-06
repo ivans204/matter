@@ -12,49 +12,53 @@
     <title>Slobnodni pad</title>
 
     <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
-<!--    <link rel="stylesheet" href="css/style.css">-->
 
-<!--    <script type="text/javascript" async-->
-<!--            src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">-->
-<!--    </script>-->
+    <script type="text/javascript" async
+            src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+    </script>
 </head>
 
 <body>
 <div class="free-fall-middle" id="free-fall-middle">
+    <div class="free-fall-tip">
+        <p class="free-fall-tip-text">Povuci loptu na planet...</p>
+        <button id="free-fall-tip-btn">OK!</button>
+    </div>
+
     <div class="free-fall-top">
         <div class="free-fall-info">
             <p class="free-fall-info-title">Jupiter</p>
-            <span>$$g &asymp; 23.12\ ms^{-23}$$</span>
-            <span>$$m &asymp; 1.90 * 10^{30} kg$$</span>
-            <span>$$r &asymp; 71492 km$$</span>
+            <span class="free-fall-formula">g &asymp; 23.12 ms$$^{-2}$$</span>
+            <span class="free-fall-formula">m &asymp; 1.90 &middot 10$$^{30}\ $$ kg</span>
+            <span class="free-fall-formula">r &asymp; 71492 km</span>
         </div>
         <div class="free-fall-info">
             <span class="free-fall-info-title">Saturn</span>
-            <span>$$g &asymp; 10.44\ ms^{-2}$$</span>
-            <span>$$m &asymp; 5.68 * 10^{26}\ kg$$</span>
-            <span>$$r &asymp; 60268\ km$$</span>
+            <span class="free-fall-formula">g &asymp; 10.44 ms$$^{-2}$$</span>
+            <span class="free-fall-formula">m &asymp; 5.68 &middot 10$$^{26}\ $$kg</span>
+            <span class="free-fall-formula">r &asymp; 60268 km</span>
         </div>
         <div class="free-fall-info">
             <span class="free-fall-info-title">Zemlja</span>
-            <span>$$g &asymp; 9.81\ ms^{-2}$$</span>
-            <span>$$m &asymp; 6 * 10^{24}\ kg$$</span>
-            <span>$$r &asymp; 6371\ km$$</span>
+            <span class="free-fall-formula">g &asymp; 9.81 ms$$^{-2}$$</span>
+            <span class="free-fall-formula">m &asymp; 6 &middot 10$$^{24}\ $$kg</span>
+            <span class="free-fall-formula">r &asymp; 6371 km</span>
         </div>
         <div class="free-fall-info">
             <span class="free-fall-info-title">Mjesec</span>
-            <span>$$g &asymp; 1.62\ ms^{-2}$$</span>
-            <span>$$m &asymp; 7.35 * 10^{22}\ kg$$</span>
-            <span>$$r &asymp; 1737.1\ km$$</span>
+            <span class="free-fall-formula">g &asymp; 1.62 ms$$^{-2}$$</span>
+            <span class="free-fall-formula">m &asymp; 7.35 &middot 10$$^{22}\ $$kg</span>
+            <span class="free-fall-formula">r &asymp; 1737.1 km</span>
         </div>
         <div class="free-fall-info">
-            <span class="free-fall-info-title">Svemir</span>
-            <span>$$g &asymp; 0\ ms^{-2}$$</span>
+            <span class="free-fall-info-title">svemir</span>
+            <span class="free-fall-formula">g &asymp; 0 ms$$^{-2}$$</span>
         </div>
     </div>
 </div>
 
-<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.11/lodash.min.js"></script>-->
-<!--<script src="JS/matter.js"></script>-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.11/lodash.min.js"></script>
+<script src="JS/matter.js"></script>
 
 <script>
     (function () {
@@ -66,6 +70,13 @@
         const Mouse = Matter.Mouse;
         const Bodies = Matter.Bodies;
         const World = Matter.World;
+
+        let tipBtn = document.getElementById('free-fall-tip-btn');
+        let freeFallTip = document.querySelector('.free-fall-tip');
+
+        tipBtn.addEventListener('click', function () {
+            freeFallTip.style.display = 'none'
+        });
 
         function draw(element) {
             World.add(world, element)
@@ -239,6 +250,11 @@
         margin: 0;
     }
 
+    .free-fall-formula {
+        display: inherit;
+        margin: 5px;
+    }
+
     .free-fall-info-title {
         font-weight: bold;
         margin: 0;
@@ -250,6 +266,42 @@
 
     .free-fall-info .MJXc-display {
         margin: 0;
+    }
+
+    button:checked, button:focus, button:active {
+        outline: none;
+    }
+
+    .free-fall-tip {
+        display: block;
+        position: absolute;
+        width: 300px;
+        height: 140px;
+        left: calc(50% - 150px);
+        top: calc(50% - 70px);
+        z-index: 1;
+        background-color: rgba(51, 51, 51, 0.91);
+        border-radius: 10px;
+    }
+
+    .free-fall-tip-text {
+        display: block;
+        color: #f2f2f2;
+        text-align: center;
+        font-size: 1rem;
+        font-weight: bold;
+    }
+
+    #free-fall-tip-btn {
+        display: block;
+        margin: 25px auto;
+        width: 80px;
+        height: 40px;
+        border: none;
+        border-radius: 10px;
+        font-weight: 700;
+        font-size: 1rem;
+        cursor: pointer;
     }
 </style>
 </body>
