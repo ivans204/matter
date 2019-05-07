@@ -69,7 +69,7 @@
                     </div>
                     <div class="energy-formula">
                         <span class="energy-formula-var">$$Ep = $$ &nbsp</span>
-                        <span class="energy-formula-var" id="energy-uk"> &nbsp 2753098 &nbsp</span>
+                        <span class="energy-formula-var" id="energy-uk">2753098</span>
                         <span class="energy-formula-mj"> &nbsp J</span>
                     </div>
                 </div>
@@ -78,7 +78,7 @@
     </div>
 
     <button class="energy-btn-reset">Reset</button>
-    <button class="energy-btn-stop">Stop</button>
+    <button class="energy-btn-stop">Start</button>
 
     <div class="energy-bot">
         <div class="energy-box">
@@ -251,14 +251,16 @@
             sy = 0;
         });
 
+        Runner.stop(runner);
+
         btnStop.addEventListener('click', () => {
-            if (!start) {
+            if (start) {
                 Runner.stop(runner);
-                start = true;
-                btnStop.innerHTML = 'Start';
-            } else if (start) {
-                Runner.start(runner, engine);
                 start = false;
+                btnStop.innerHTML = 'Start';
+            } else if (!start) {
+                Runner.start(runner, engine);
+                start = true;
                 btnStop.innerHTML = 'Stop';
             }
         });
