@@ -6,13 +6,152 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>ZoE</title>
+    <style>
+        .zoe-middle {
+            position: relative;
+            width: 800px;
+            height: 600px;
+        }
 
-<!--    <link rel="stylesheet" href="css/style.css">-->
+        .zoe-bot {
+            position: absolute;
+            bottom: 5px;
+            left: 250px;
+            display: flex;
+            z-index: 1;
+        }
+
+        .zoe-left {
+            min-width: 150px;
+            position: absolute;
+            left: 10px;
+            top: 5px;
+            font-size: 12px;
+            pointer-events: none;
+        }
+
+        .zoe-box {
+            position: relative;
+            margin: 0 10px;
+            width: 80px;
+            text-align: center;
+            height: 125px;
+            color: #f2f2f2;
+            padding: 10px 0;
+        }
+
+        .zoe-box-in {
+            position: absolute;
+            width: 100%;
+            bottom: 0;
+            min-height: 3px;
+            overflow: hidden;
+        }
+
+        .zoe-wrap {
+            display: flex;
+            align-items: center;
+            flex-direction: row;
+            margin-top: 10px;
+        }
+
+        .zoe-kinetic {
+            background-color: #1c73c9;
+            height: 0%;
+        }
+
+        .zoe-gravity {
+            background-color: #aa4ca1;
+            height: 100%;
+        }
+
+        .zoe-sum {
+            background-color: #f36f39;
+            height: 100%;
+        }
+
+        .zoe-legend {
+            width: 50px;
+            height: 10px;
+            background-color: cornflowerblue;
+        }
+
+        .zoe-legend-title {
+            margin-left: 5px;
+        }
+
+        .zoe-modal {
+            display: block;
+            position: absolute;
+            width: 400px;
+            height: 200px;
+            background-color: #f2f2f2;
+            left: calc(400px - 200px);
+            bottom: 0;
+            z-index: 2;
+        }
+
+        .zoe-arrow-left {
+            position: absolute;
+            left: -100px;
+            top: 0;
+            height: 100px;
+            width: 100px;
+        }
+
+        .zoe-arrow-right {
+            position: absolute;
+            right: -100px;
+            top: 0;
+            height: 100px;
+            width: 100px;
+        }
+
+        .zoe-arrow-text {
+            margin-top: 60px;
+            font-size: 1rem;
+            text-align: center;
+        }
+
+        #zoe-arrow-btn {
+            display: block;
+            margin: 0 auto;
+            width: 50px;
+            height: 50px;
+            border: 0;
+            border-radius: 50%;
+            font-weight: bold;
+            font-size: 1rem;
+            color: #f2f2f2;
+            background-color: #aa4ca1;
+            cursor: pointer;
+        }
+
+        #zoe-upute-btn {
+            pointer-events: all;
+            border-radius: 5px;
+            border: none;
+            width: 50px;
+            height: 25px;
+            background-color: #aa4ca1;
+            color: white;
+        }
+    </style>
 </head>
 <body>
 
 <div class="zoe-middle" id="zoe-middle">
 
+    <div class="zoe-modal">
+        <img class="zoe-arrow-left" src="img/strelica-lijeva.svg" alt="left">
+        <p class="zoe-arrow-text">
+            Zanjiši kuglu da udari u zid za beskonačno njhanje. <br>
+            Zaustavi kuglu pritiskom na nju i gledaj položaj kugle i količinu energije u tom položaju.
+        </p>
+        <img class="zoe-arrow-right" src="img/strelica-desna.svg" alt="right">
+
+        <button id="zoe-arrow-btn">OK!</button>
+    </div>
     <div class="zoe-left">
         <div class="zoe-wrap">
             <span class="zoe-legend" style="background-color: #1c73c9"></span>
@@ -27,6 +166,10 @@
         <div class="zoe-wrap">
             <span class="zoe-legend" style="background-color: #f36f39"></span>
             <span class="zoe-legend-title">ukupna energija</span>
+        </div>
+
+        <div class="zoe-wrap">
+            <button id="zoe-upute-btn">Upute</button>
         </div>
     </div>
 
@@ -62,6 +205,18 @@
         const Bodies = Matter.Bodies;
         const Body = Matter.Body;
         const SAT = Matter.SAT;
+
+        let zoeArrowBtn = document.getElementById('zoe-arrow-btn');
+        let zoeUpute = document.getElementById('zoe-upute-btn');
+        let zoeModal = document.querySelector('.zoe-modal');
+
+        zoeArrowBtn.addEventListener('click', function () {
+            zoeModal.style.display = 'none';
+        });
+
+        zoeUpute.addEventListener('click', function () {
+            zoeModal.style.display = 'block';
+        });
 
         function draw(element) {
             World.add(world, element)
@@ -144,79 +299,5 @@
         });
     })();
 </script>
-<style>
-    .zoe-middle {
-        position: relative;
-        width: 800px;
-        height: 600px;
-    }
-
-    .zoe-bot {
-        position: absolute;
-        bottom: 5px;
-        left: 250px;
-        display: flex;
-        z-index: 10;
-    }
-
-    .zoe-left {
-        min-width: 150px;
-        position: absolute;
-        left: 10px;
-        top: 5px;
-        font-size: 12px;
-        pointer-events: none;
-    }
-
-    .zoe-box {
-        position: relative;
-        margin: 0 10px;
-        width: 80px;
-        text-align: center;
-        height: 125px;
-        color: #f2f2f2;
-        padding: 10px 0;
-    }
-
-    .zoe-box-in {
-        position: absolute;
-        width: 100%;
-        bottom: 0;
-        min-height: 3px;
-        overflow: hidden;
-    }
-
-    .zoe-wrap {
-        display: flex;
-        align-items: center;
-        flex-direction: row;
-        margin-top: 10px;
-    }
-
-    .zoe-kinetic {
-        background-color: #1c73c9;
-        height: 0%;
-    }
-
-    .zoe-gravity {
-        background-color: #aa4ca1;
-        height: 100%;
-    }
-
-    .zoe-sum {
-        background-color: #f36f39;
-        height: 125px;
-    }
-
-    .zoe-legend {
-        width: 50px;
-        height: 10px;
-        background-color: cornflowerblue;
-    }
-
-    .zoe-legend-title {
-        margin-left: 5px;
-    }
-</style>
 </body>
 </html>

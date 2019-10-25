@@ -3,6 +3,7 @@
     <words>
       <w>ancor</w>
       <w>axios</w>
+      <w>beskonačno</w>
       <w>brzina</w>
       <w>btpb</w>
       <w>cdot</w>
@@ -11,6 +12,7 @@
       <w>cssnano</w>
       <w>dbff</w>
       <w>decomp</w>
+      <w>desna</w>
       <w>dinamo</w>
       <w>dodaj</w>
       <w>ecdc</w>
@@ -23,6 +25,7 @@
       <w>fric</w>
       <w>funkcije</w>
       <w>gibanje</w>
+      <w>gledaj</w>
       <w>gmnm</w>
       <w>gospa</w>
       <w>grav</w>
@@ -41,12 +44,16 @@
       <w>kinetička</w>
       <w>klasa</w>
       <w>kocka</w>
+      <w>količinu</w>
       <w>konst</w>
       <w>korak</w>
       <w>krug</w>
       <w>kruzno</w>
+      <w>kugle</w>
+      <w>kuglu</w>
       <w>kutkut</w>
       <w>letva</w>
+      <w>lijeva</w>
       <w>lijevo</w>
       <w>lopta</w>
       <w>loptu</w>
@@ -58,6 +65,7 @@
       <w>mult</w>
       <w>mzyig</w>
       <w>nista</w>
+      <w>njhanje</w>
       <w>njihalo</w>
       <w>nkbuea</w>
       <w>nodelib</w>
@@ -68,27 +76,34 @@
       <w>planeti</w>
       <w>pokus</w>
       <w>polica</w>
+      <w>položaj</w>
+      <w>položaju</w>
       <w>polumjer</w>
       <w>potencijalna</w>
       <w>povuci</w>
       <w>povucite</w>
       <w>preko</w>
+      <w>pritiskom</w>
       <w>pucaj</w>
       <w>reddit</w>
       <w>rekt</w>
+      <w>simuliraj</w>
       <w>slobnodni</w>
       <w>slobodni</w>
       <w>sredine</w>
       <w>stanga</w>
       <w>startdrag</w>
+      <w>strelica</w>
       <w>stupanj</w>
       <w>svemir</w>
       <w>tekst</w>
       <w>trenje</w>
       <w>trolly</w>
+      <w>udari</w>
       <w>ukupna</w>
       <w>unpkg</w>
       <w>unutarnja</w>
+      <w>upute</w>
       <w>vdom</w>
       <w>velo</w>
       <w>verlet</w>
@@ -100,6 +115,8 @@
       <w>wireframes</w>
       <w>ysyem</w>
       <w>zakon</w>
+      <w>zanjiši</w>
+      <w>zaustavi</w>
       <w>zemlja</w>
       <w>zidovi</w>
     </words>
